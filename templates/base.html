@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="icon" href="data:,">
+  <link rel="canonical" href="https://jottingdown.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="{% static 'css/a.css' %}" rel="stylesheet">
+  <link href="{% static 'css/b.css' %}" rel="stylesheet">
+  <link href="{% static 'css/p.css' %}" rel="stylesheet">
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<div class="main-content">
+  {% include './components/navbar.html' %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        {% block content %}{% endblock content %}
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/h.js' %}"></script>
+<script src="{% static 'js/a.js' %}"></script>
+<script src="{% static 'js/b.js' %}"></script>
+<script src="{% static 'js/p.js' %}"></script>
+{{ form.media }}
+</body>
+</html>

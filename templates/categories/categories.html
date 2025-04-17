@@ -1,0 +1,118 @@
+{% extends '../base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="row mt-7">
+<div class="col-12">
+
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" href="#!">For You</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#!">People</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#!">Communities</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#!">Like</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#!">Bookmarks</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#!">New</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#!">Promoted</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'categories' %}">Explore</a>
+    </li>
+  </ul>
+  {% for category in categories %}
+  <h2 class="mb-3">
+    <a href="" class="border-bottom fw-800">
+      {{ category.name|capfirst }}
+    </a>
+  </h2>
+  <p class="text-dark px-2">
+    {{ category.description }}
+  </p>
+  <div class="card shadow-none" data-list="{&quot;valueNames&quot;: [&quot;orders-order&quot;, &quot;orders-product&quot;, &quot;orders-date&quot;, &quot;orders-total&quot;, &quot;orders-status&quot;, &quot;orders-method&quot;]}">
+    <div class="card-header">
+
+    
+      <form>
+        <div class="input-group input-group-flush input-group-merge input-group-reverse">
+          <input class="form-control list-search" type="search" placeholder="Search">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+        </div>
+      </form>
+
+    </div>
+    <div class="table-responsive">
+      <table class="table table-sm table-nowrap card-table">
+ 
+        <thead>
+          <tr>
+            <th colspan="5">
+
+              {{ category.communities.all|length }} Communities
+
+            </th>
+            
+     
+
+            <th width="50">
+              <a href="#" class="text-body-secondary list-sort" data-sort="orders-total">
+                Topics
+              </a>
+            </th>
+            <th width="50">
+              <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
+                Opinions
+              </a>
+            </th>
+            <th width="50">
+              <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
+                Followers
+              </a>
+            </th>
+            <th width="50">
+              
+            </th>  
+            
+        </thead>
+
+        <tbody class="list">
+          {% for community in category.communities.all %}
+          <tr>
+
+            <td class="orders-order" colspan="5">
+              <a href="{% url 'community' community.slug %}" class="fs-1 text-dark">{{community|capfirst}}</a>
+            </td>
+            <td class="orders-product" width="50">
+              {{ community.topics.all|length }}
+            </td>
+            <td class="orders-product" width="50">
+              {{ community.answers.all|length }}
+            </td>
+            <td class="orders-product" width="50">
+              {{ community.followers.all|length }}
+            </td>
+            <td class="orders-product" width="50">
+              <button class="btn btn-sm btn-primary">Follow</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+{% endblock content %}

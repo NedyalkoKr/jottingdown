@@ -1,0 +1,100 @@
+<nav class="navbar navbar-expand-md navbar-light d-none d-md-flex fixed-top" id="topbar">
+  <div class="container">
+    <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="d-flex justify-content-center flex-grow-1">
+      {% if request.path == g_search_posts_url or request.path == user_posts_url or request.path == posts_foryou_based_on_people_you_follow_url or request.path == thoughts_foryou_based_on_people_you_follow_url or request.path == posts_foryou_based_on_people_you_follow_with_context_url or request.path == follow_users_url or request.path == follow_interests_url or request.path == search_posts_url or request.path == user_thoughts_url or request.path == user_liked_posts_url or request.path == search_thoughts_url or request.path == posts_foryou_based_on_people_you_follow_with_links_url %}
+      <form action="" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
+      {% elif request.path == latest_g_search_posts_url %}
+      <form action="" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
+      {% elif request.path == search_comments_url %}
+      <form action="" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
+      {% elif request.path == search_all_thoughts_url %}
+      <form action="" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
+      {% endif %}
+        <div class="input-group input-group-rounded input-group-merge input-group-reverse" data-list="{&quot;valueNames&quot;: [&quot;name&quot;]}">
+          <input type="search" name="sq" value="{{ request.GET.sq|default:'' }}" placeholder="Search" class="form-control dropdown-toggle list-search" autocomplete="off">
+          <div class="input-group-text">
+            <i class="las la-search"></i>
+          </div>
+          <!-- <div class="dropdown-menu dropdown-menu-card">
+          <div class="card-body">
+            <div class="list-group list-group-flush list-group-focus list my-n3">
+              <a class="list-group-item" href="">
+                <div class="row align-items-center">
+                  <div class="col-auto"></div>
+                  <div class="col ms-n2">
+                    <h4 class="text-body text-focus mb-1 name">Airbnb</h4>
+                    <p class="small text-body-secondary mb-0">
+                      <span class="fe fe-clock"></span> <time datetime="2018-05-24">Updated 2hr ago</time>
+                    </p>
+                  </div>
+                </div> 
+              </a>
+            </div>
+          </div>
+        </div>  -->
+        </div>
+      </form>
+    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {% if request.path == user_posts_url or request.path == search_posts_url or request.path == posts_foryou_based_on_people_you_follow_url or request.path == update_interest_url or request.path == user_liked_posts_url or request.path == saved_searches_url or request.path == follow_users_url %}
+      <a href="" class="btn btn-primary">Create</a>
+    {% elif request.path == user_thoughts_url or request.path == search_thoughts_url %}
+      <a href="" class="btn btn-primary">Create</a>
+    {% elif request.path == user_questions_url %}
+      <a href="" class="btn btn-primary">Create</a>
+    {% endif %}
+    <div class="navbar border-0">
+      <div class="dropdown me-4 d-none d-lg-flex">
+        <a href="#" class="navbar-user-link" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="icon">
+            <i class="las la-bell la-2x"></i>
+          </span>
+        </a>
+      </div>
+      <div class="dropdown">
+        <a href="#" class="navbar-user-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {% if user.avatar %}
+          <div class="avatar avatar-sm dropdown-toggle">
+            <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+          </div>
+          {% else %}
+          <div class="avatar avatar-xs dropdown-toggle">
+            <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+          </div>
+          {% endif %}
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+          <a href="" class="dropdown-item">Settings</a>
+          <hr class="dropdown-divider">
+          <a href="javascript:void(0);" class="dropdown-item">
+            <form method="post" action="">
+              {% csrf_token %}
+              <button type="submit" class="dropdown-item" style="background:none; border:none; padding:0; text-align:left; width:100%;">Logout</button>
+            </form>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse me-lg-auto order-lg-first" id="navbar">
+      <form class="mt-4 mb-3 d-md-none">
+        <input type="search" class="form-control form-control-rounded" placeholder="Search" aria-label="Search">
+      </form>
+      <ul class="navbar-nav me-lg-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == user_posts_url or request.path == search_posts_url or request.path == user_thoughts_url or request.path == user_liked_posts_url %}active{% endif %}" href="">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Stumble</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == follow_users_url or request.path == follow_topics_url or request.path == follow_new_topics_url or request.path == topics_with_most_posts_url or request.path == follow_communities_url or request.path == follow_interests_url %}active{% endif %}" href="">Follow</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
