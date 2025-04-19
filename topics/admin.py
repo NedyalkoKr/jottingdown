@@ -9,3 +9,6 @@ class TopicAdmin(admin.ModelAdmin):
   list_filter = ('community',)
   # list_per_page = 1
   # ordering = ('-created',)
+  fieldsets = (
+    ("", {"fields": ("title", "community", "user", "content")}),
+  )

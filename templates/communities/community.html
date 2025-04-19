@@ -1,23 +1,32 @@
 {% extends '../base.html' %}
+{% load static humanize %}
 {% block content %}
-<div class="header">
+<div class="header mt-4">
   <div class="container-fluid">
-    <div class="header-body">
-      <div class="row align-items-end">
+    <div class="header-body pb-2">
+      <div class="row">
         <div class="col">
           <h1 class="header-title fs-13">
             {{ community|capfirst }}
           </h1>
+          <ul class="list-group list-group-horizontal mt-2">
+            <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.topic_set.all|length}} topics</li>
+            <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.followers.all|length}} followers</li>
+          </ul>
         </div>
-        <div class="col-auto">
-          Topics: {{community.topic_set.all|length}}
+        <div class="col-auto px-0">
+          <a href="#!" class="btn btn-sm btn-primary">
+            New Topic
+          </a>
         </div>
-        <div class="col-auto">
-          Followers: {{community.followers.all|length}}
-        </div>
-        <div class="col-auto">
-          <a href="#!" class="btn btn-sm btn-primary lift">
+        <div class="col-auto px-2">
+          <a href="#!" class="btn btn-sm btn-primary">
             Follow
+          </a>
+        </div>
+        <div class="col-auto px-0">
+          <a href="#!" class="btn btn-sm btn-primary">
+            Filters
           </a>
         </div>
       </div>
@@ -31,16 +40,24 @@
   </div>
 </form>
 <div class="card shadow-none">
+  <div class="card-header">
+    <h4 class="card-header-title">
+      Topics
+    </h4>
+  </div>
   <div class="card-body">
     <div class="list-group list-group-flush my-n3">
       {% for topic in community.topic_set.all %}
-      <div class="list-group-item">
+      <div class="list-group-item px-2 py-4">
         <div class="row align-items-center">
           <div class="col">
             <h1 class="mb-0 fs-11">
-              <a href="">{{topic}}</a>
+              <a href="" class="">{{topic}}</a>
             </h1>
-            <p class="card-text small text-body-secondary mt-1">author {{topic.user}}</p>
+            <ul class="list-group list-group-horizontal mt-2">
+              <li class="list-group-item p-0 px-2 border-0 fs-08">author {{topic.user}}</li>
+              <li class="list-group-item p-0 px-2 border-0 fs-08">{{topic.created|naturaltime}}</li>
+            </ul>
           </div>
           <div class="col-auto">
             <i class="bi bi-eye"></i>&nbsp;&nbsp;&nbsp;&nbsp;62 225
