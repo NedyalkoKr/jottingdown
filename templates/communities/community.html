@@ -1,0 +1,57 @@
+{% extends '../base.html' %}
+{% block content %}
+<div class="header">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-end">
+        <div class="col">
+          <h1 class="header-title fs-13">
+            {{ community|capfirst }}
+          </h1>
+        </div>
+        <div class="col-auto">
+          Topics: {{community.topic_set.all|length}}
+        </div>
+        <div class="col-auto">
+          Followers: {{community.followers.all|length}}
+        </div>
+        <div class="col-auto">
+          <a href="#!" class="btn btn-sm btn-primary lift">
+            Follow
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form action="" method="get" class="mt-4">
+  <div class="input-group mb-3">
+    <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search topics" class="form-control" autocomplete="off">
+    <button class="btn btn-outline-secondary" type="submit">Search</button>
+  </div>
+</form>
+<div class="card shadow-none">
+  <div class="card-body">
+    <div class="list-group list-group-flush my-n3">
+      {% for topic in community.topic_set.all %}
+      <div class="list-group-item">
+        <div class="row align-items-center">
+          <div class="col">
+            <h1 class="mb-0 fs-11">
+              <a href="">{{topic}}</a>
+            </h1>
+            <p class="card-text small text-body-secondary mt-1">author {{topic.user}}</p>
+          </div>
+          <div class="col-auto">
+            <i class="bi bi-eye"></i>&nbsp;&nbsp;&nbsp;&nbsp;62 225
+          </div>
+          <div class="col-auto">
+            <i class="bi bi-chat-right-fill"></i>&nbsp;&nbsp;&nbsp;&nbsp;2300
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

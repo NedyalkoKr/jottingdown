@@ -3,33 +3,6 @@
 {% block content %}
 <div class="row mt-7">
 <div class="col-12">
-
-  <ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-      <a class="nav-link" href="#!">For You</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#!">People</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#!">Communities</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#!">Like</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#!">Bookmarks</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#!">New</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#!">Promoted</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="{% url 'categories' %}">Explore</a>
-    </li>
-  </ul>
   {% for category in categories %}
   <h2 class="mb-3">
     <a href="" class="border-bottom fw-800">

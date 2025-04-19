@@ -1,0 +1,111 @@
+<nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
+  <div class="container-fluid">
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- User (xs) -->
+    <div class="navbar-user d-md-none">
+
+      <!-- Dropdown -->
+      <div class="dropdown">
+
+        <!-- Toggle -->
+        <a href="#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="avatar avatar-sm avatar-online">
+            <img src="./assets/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle" alt="...">
+          </div>
+        </a>
+
+        <!-- Menu -->
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarIcon">
+          <a href="./profile-posts.html" class="dropdown-item">Profile</a>
+          <a href="./account-general.html" class="dropdown-item">Settings</a>
+          <hr class="dropdown-divider">
+          <a href="./sign-in.html" class="dropdown-item">Logout</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Collapse -->
+    <div class="collapse navbar-collapse" id="sidebarCollapse">
+
+      <!-- Form -->
+      <form class="mt-4 mb-3 d-md-none">
+        <div class="input-group input-group-rounded input-group-merge input-group-reverse">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-text">
+            <span class="fe fe-search"></span>
+          </div>
+        </div>
+      </form>
+
+    
+
+     
+
+      <!-- Navigation -->
+      <ul class="navbar-nav mb-md-4">
+
+
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            For You
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            Follow
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            People
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            Communities
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            Search
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="{% url 'categories' %}">
+            Explore
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            Stumble
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            Notifications
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+            Profile
+          </a>
+        </li>
+      </ul>
+
+
+
+        
+       
+
+
+    </div>
+
+  </div>
+</nav>
