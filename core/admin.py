@@ -31,11 +31,10 @@ class CommunityAdmin(admin.ModelAdmin):
   search_fields = ('name',)
   list_filter = ('created',)
   readonly_fields = ('created', 'slug',)
-  filter_horizontal = ["followers",] 
   fieldsets = (
     ("Community", {
       "fields": (
-        "name", "category", "description", "followers",
+        "name", "category", "description",
       )}
     ),
   )

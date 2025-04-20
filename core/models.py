@@ -32,7 +32,7 @@ class Community(models.Model):
   slug = AutoSlugField(populate_from="name", always_update=True, editable=False, null=True)
   created = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
   description = models.TextField(blank=True, null=True)
-  followers = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name='followed_communities', blank=True)
+  # followers = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name='followed_communities', blank=True)
   category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name='communities')
 
   class Meta:

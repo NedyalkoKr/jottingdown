@@ -10,7 +10,7 @@ class CategoriesView(LoginRequiredMixin, ListView):
   template_name = 'categories/categories.html'
 
   def get_queryset(self):
-    categories = Category.objects.prefetch_related('communities').prefetch_related('communities__followers')
+    categories = Category.objects.prefetch_related('communities')
     return categories
 
 
@@ -20,7 +20,7 @@ class CommunityView(LoginRequiredMixin, DetailView):
   context_object_name = 'community'
 
   def get_object(self):
-    community = Community.objects.get(slug=self.kwargs['slug'])
+    community = Community.objects.prefetch_related('topic_set__user').get(slug=self.kwargs['slug'])
     return community
   
   # def get_context_data(self, **kwargs):

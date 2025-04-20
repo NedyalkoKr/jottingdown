@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load humanize %}
+{% block title %}Categories{% endblock %}
 {% block content %}
 <div class="row mt-7">
 <div class="col-12">
@@ -77,7 +78,15 @@
               {{ community.followers.all|length }}
             </td>
             <td class="orders-product" width="50">
-              <button class="btn btn-sm btn-primary">Follow</button>
+              {% if community in user.following_communities.all %}
+              <form method="post" action="{% url 'unfollow_community' community.slug %}">{% csrf_token %}
+                <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+              </form>
+              {% else %}
+              <form method="post" action="{% url 'follow_community' community.slug %}">{% csrf_token %}
+                <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+              </form>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}

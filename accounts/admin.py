@@ -25,11 +25,12 @@ class CustomUserAdmin(UserAdmin):
   actions_selection_counter = True
   list_per_page = 10
   date_hierarchy = "date_joined"
-  filter_horizontal = ('groups', 'user_permissions',)
+  filter_horizontal = ('groups', 'user_permissions', 'following_communities')
 
   fieldsets = (
     ("User details", {"fields": ("username", "email", "password")}),
     ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions",)}),
+    ("Following communities", {"fields": ("following_communities",)}),
   )
 
   add_fieldsets = (

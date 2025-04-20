@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static humanize %}
+{% block title %}Community - {{ community|capfirst }}{% endblock %}
 {% block content %}
 <div class="header mt-4">
   <div class="container-fluid">
@@ -11,18 +12,26 @@
           </h1>
           <ul class="list-group list-group-horizontal mt-2">
             <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.topic_set.all|length}} topics</li>
-            <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.followers.all|length}} followers</li>
+            <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.all|length}} followers</li>
           </ul>
         </div>
+        {% if community in user.following_communities.all %}
         <div class="col-auto px-0">
-          <a href="#!" class="btn btn-sm btn-primary">
+          <a href="{% url 'new_topic' community.slug %}" class="btn btn-sm btn-primary">
             New Topic
           </a>
         </div>
+        {% endif %}
         <div class="col-auto px-2">
-          <a href="#!" class="btn btn-sm btn-primary">
-            Follow
-          </a>
+          {% if community in user.following_communities.all %}
+          <form method="post" action="{% url 'unfollow_community' community.slug %}">{% csrf_token %}
+            <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+          </form>
+          {% else %}
+          <form method="post" action="{% url 'follow_community' community.slug %}">{% csrf_token %}
+            <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+          </form>
+          {% endif %}
         </div>
         <div class="col-auto px-0">
           <a href="#!" class="btn btn-sm btn-primary">

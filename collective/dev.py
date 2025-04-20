@@ -31,6 +31,8 @@ THIRD_PARTY_APPS = [
   'django_extensions',
   'debug_toolbar',
   'django_htmx',
+  'tinymce',
+  'widget_tweaks',
 ]
 
 LOCAL_APPS = [

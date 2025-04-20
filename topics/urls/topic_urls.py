@@ -1,6 +1,7 @@
 from django.urls import path
-# from ..views import NewPostView, PostDeleteView, NewPostDeleteView, NewPostLinksView, UpdatePostView, UpdatePostLinkView, LikeUnlikePostView, upload_image, BookmarkPostView, NewReactionPostView, NewMediaPostView
+from ..views import NewTopicView
+
 
 urlpatterns = [
-  
+  path('community/<str:slug>/new/', NewTopicView.as_view(), name='new_topic'),
 ]
