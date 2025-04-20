@@ -69,13 +69,13 @@
               <a href="{% url 'community' community.slug %}" class="fs-1 text-dark">{{community|capfirst}}</a>
             </td>
             <td class="orders-product" width="50">
-              {{ community.topics.all|length }}
+              {{ community.topic_set.all|length }}
             </td>
             <td class="orders-product" width="50">
               {{ community.answers.all|length }}
             </td>
             <td class="orders-product" width="50">
-              {{ community.followers.all|length }}
+              {{ community.followed_communities.count }}
             </td>
             <td class="orders-product" width="50">
               {% if community in user.following_communities.all %}

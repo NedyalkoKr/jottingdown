@@ -2,59 +2,74 @@
 {% load humanize widget_tweaks static %}
 {% block title %}New Topic{% endblock title %}
 {% block content %}
-<div class="card mt-7 py-0 shadow-none">
+<div class="header">
+<div class="container-fluid">
+  <div class="header-body pb-2">
+    <div class="row align-items-end">
+      <div class="col">
+        <h6 class="header-pretitle">
+          <a href="{% url 'categories' %}">Communities</a>
+        </h6>
+        <h1 class="header-title fs-12">
+          {{community|capfirst}}
+        </h1>
+      </div>
+      <div class="col-auto"></div>
+    </div>
+  </div>
+</div>
+<div class="card mt-4 py-0 shadow-none">
   <div class="card-header border-bottom-0">
     <ul class="nav nav-tabs nav-tabs-sm">
       <li class="nav-item">
-        <a href="" class="nav-link active text-dark">Text</a>
+        <a href="" class="nav-link active text-dark">Topic</a>
       </li>
       <li class="nav-item">
         <a href="" class="nav-link text-dark">Media</a>
       </li>
     </ul>
-    <!-- <ul class="nav nav-tabs nav-tabs-sm">
+    <ul class="nav nav-tabs nav-tabs-sm">
       <li class="nav-item">
-        <a href="javascript:history.back()" class="nav-link text-dark"><i class="las la-times la-lg"></i></a>
+        <a href="{% url 'community' community.slug %}" class="nav-link text-dark"><i class="las la-times la-lg"></i></a>
       </li>
-    </ul> -->
+    </ul>
   </div>
-  <div id="post-container">
   <div class="card-body">
     <form action="{% url 'new_topic' community.slug %}" method="post">{% csrf_token %}
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="nav-one-eg1" role="tabpanel">
-          <div class="my-n3">
-            <div class="row mb-2">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <div class="d-flex fs-08 mb-2">
-                    {{form.title.label_tag}}
-                  </div>
-                  {{form.title|add_class:"form-control" }}
-                </div>
+      <div class="my-n3">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="d-flex fs-08 mb-2">
+                {{form.title.label_tag}}
               </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-sm-12">
-                <div class="form-group overflow-auto">
-                  <div class="d-flex fs-08 mb-2">
-                    {{form.content.label_tag}}
-                  </div>
-                  {{form.content|safe}}
-                </div>
-                {% if form.content.errors %}
+              {{form.title|add_class:"form-control form-control-lg fs-11" }}
+              {% if form.title.errors %}
                 <div class="alert alert-danger" role="alert">
-                  {{form.content.errors|join:"<br>"}}
+                  {{form.title.errors|join:"<br>"}}
                 </div>
-                {% endif %}
-              </div>
+              {% endif %}
             </div>
-            <button type="submit" class="btn btn-primary w-100">Post</button>
           </div>
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <div class="form-group overflow-auto">
+                <div class="d-flex fs-08 mb-2">
+                  {{form.content.label_tag}}
+                </div>
+                {{form.content|safe}}
+              </div>
+              {% if form.content.errors %}
+              <div class="alert alert-danger" role="alert">
+                {{form.content.errors|join:"<br>"}}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Post</button>
         </div>
       </div>
     </form>
   </div>
-</div>
 </div>
 {% endblock content %}

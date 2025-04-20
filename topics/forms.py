@@ -1,4 +1,6 @@
+import re
 from django import forms
+from django.core.exceptions import ValidationError
 from tinymce.widgets import TinyMCE
 from validators.account_validators import OffensiveWordsValidator, BlacklistDomainsValidator
 from .models import Topic
@@ -37,3 +39,22 @@ class TopicModelForm(forms.ModelForm):
   class Meta:
     model = Topic
     fields = ('title', 'content',)
+  
+  def clean_content(self):
+    content = self.cleaned_data['content']
+    content = re.sub(r'\u003c(sup|sub|script|button|form|select|textarea|canvas|menu|nav|header|footer|section|aside|audio)[^\u003e]*\u003e.*?\u003c/\\1\u003e', '', content, flags=re.DOTALL)
+    content = re.sub(r'\\sclass="((?!language-)[\\"]*)"', '', content)
+    content = re.sub(r'\\s(data-testid|aria-labelledby|aria-hidden|aria-level|srcset|sizes|data-selectable-paragraph|dir|style|utm_campaign|rel)="[\\"]*"', '', content)
+    content = re.sub(r'\\sid="[\\"]*"', '', content)
+    content = re.sub(r'\\sdata-[^=]*="[\\"]*"', '', content)
+    content = re.sub(r'<div[^>]*>\s*(?:&nbsp;|&#160;|\u00A0)\s*</div>', '', content, flags=re.DOTALL)
+    if len(content) > 20000:
+      msg = f'Post is too big.'
+      raise ValidationError(msg)
+    return content
+
+  def clean_title(self):
+    title = self.cleaned_data['title']
+    if len(title) > 120:
+      raise forms.ValidationError("Title is too long.")
+    return title  

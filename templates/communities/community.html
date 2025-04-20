@@ -12,7 +12,7 @@
           </h1>
           <ul class="list-group list-group-horizontal mt-2">
             <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.topic_set.all|length}} topics</li>
-            <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.all|length}} followers</li>
+            <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
           </ul>
         </div>
         {% if community in user.following_communities.all %}

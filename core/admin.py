@@ -21,7 +21,6 @@ class CategoryAdmin(admin.ModelAdmin):
   list_display = ('name',)
   search_fields = ('name',)
   list_filter = ('created',)
-  filter_horizontal = ["followers",] 
 
 
 @admin.register(Community)
@@ -31,6 +30,7 @@ class CommunityAdmin(admin.ModelAdmin):
   search_fields = ('name',)
   list_filter = ('created',)
   readonly_fields = ('created', 'slug',)
+  ordering = ('name',)
   fieldsets = (
     ("Community", {
       "fields": (

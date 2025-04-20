@@ -10,11 +10,12 @@ class CategoriesView(LoginRequiredMixin, ListView):
   template_name = 'categories/categories.html'
 
   def get_queryset(self):
-    categories = Category.objects.prefetch_related('communities')
+    categories = Category.objects.prefetch_related('communities').prefetch_related('communities__topic_set').prefetch_related('communities__followed_communities').prefetch_related('communities')
     return categories
 
 
 class CommunityView(LoginRequiredMixin, DetailView):
+
   model = Community
   template_name = 'communities/community.html'
   context_object_name = 'community'
