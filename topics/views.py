@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from django.db.models import F
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from core.models import Community
-from .models import Topic
+from .models import Topic, TopicView
 from .forms import TopicModelForm
 
 
@@ -29,3 +30,23 @@ class NewTopicView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
   
   def get_success_url(self, **kwargs):
     return reverse_lazy('new_topic', kwargs={'slug': self.kwargs['slug']})
+
+
+class TopicDetailView(LoginRequiredMixin, DetailView):
+
+  model = Topic
+  context_object_name = 'topic'
+  http_method_names = ["get", "post",]
+  template_name = 'topics/topic.html'
+
+  def get_object(self, queryset=None):
+    community = Community.objects.get(slug=self.kwargs['slug'])
+    topic = Topic.objects.get(
+      user=self.request.user,
+      community=community,
+      pk=self.kwargs['topic_pk']
+    )
+    if not TopicView.objects.filter(topic=topic, user=self.request.user).exists():
+      TopicView.objects.create(topic=topic, user=self.request.user)
+      Topic.objects.filter(pk=topic.pk).update(views=F('views') + 1)
+    return topic

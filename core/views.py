@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from .models import Category, Community
 from topics.models import Topic
+from topics.forms import TopicModelForm
 
 
 class CategoriesView(LoginRequiredMixin, ListView):
@@ -26,10 +27,6 @@ class CommunityView(LoginRequiredMixin, DetailView):
     community = Community.objects.prefetch_related('topic_set__user').get(slug=self.kwargs['slug'])
     return community
   
-  # def get_context_data(self, **kwargs):
-  #   context['posts'] = Post.objects.prefetch_related('comments').prefetch_related('context').prefetch_related('community').prefetch_related('user').filter(community=self.object)
-  #   return context
-
 
 class CommunityLatestTopicsView(LoginRequiredMixin, DetailView):
 
