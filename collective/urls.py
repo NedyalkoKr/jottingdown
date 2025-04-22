@@ -23,6 +23,7 @@ urlpatterns = [
     path(route='community/', view=include('core.urls.community_urls')),
     path(route='follow/', view=include('follow.urls.follow_urls')),
     path(route='unfollow/', view=include('follow.urls.unfollow_urls')),
+    path(route='search/', view=include('search.urls.search_urls')),
 ]
 
 if settings.DEBUG:

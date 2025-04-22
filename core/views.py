@@ -1,6 +1,8 @@
+from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from .models import Category, Community
+from topics.models import Topic
 
 
 class CategoriesView(LoginRequiredMixin, ListView):
@@ -27,3 +29,19 @@ class CommunityView(LoginRequiredMixin, DetailView):
   # def get_context_data(self, **kwargs):
   #   context['posts'] = Post.objects.prefetch_related('comments').prefetch_related('context').prefetch_related('community').prefetch_related('user').filter(community=self.object)
   #   return context
+
+
+class CommunityLatestTopicsView(LoginRequiredMixin, DetailView):
+
+  model = Topic
+  template_name = 'communities/latest_community_topics.html'
+  context_object_name = 'topics'
+
+  def get_object(self):
+    topics = Topic.objects.filter(community=Community.objects.get(slug=self.kwargs['slug'])).filter(created__day=timezone.now().day, created__month=timezone.now().month, created__year=timezone.now().year)
+    return topics
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['community'] = Community.objects.get(slug=self.kwargs['slug'])
+    return context
