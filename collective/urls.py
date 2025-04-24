@@ -17,9 +17,11 @@ else:
 
 
 urlpatterns = [
+    path(route='profile/', view=include('accounts.urls.profile_urls')),
+    path(route='settings/', view=include('accounts.urls.settings_urls')),
     path(route='topic/', view=include('topics.urls.topic_urls')),
     path(route='topics/', view=include('topics.urls.topics_urls')),
-    path(route='categories/', view=include('core.urls.categories_urls')),
+    path(route='communities/', view=include('core.urls.communities_urls')),
     path(route='community/', view=include('core.urls.community_urls')),
     path(route='follow/', view=include('follow.urls.follow_urls')),
     path(route='unfollow/', view=include('follow.urls.unfollow_urls')),

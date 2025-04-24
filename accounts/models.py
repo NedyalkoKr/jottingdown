@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django_extensions.db.fields import AutoSlugField
 from django.core.validators import MinLengthValidator
@@ -27,6 +28,13 @@ class CustomUser(AbstractUser):
   date_joined = models.DateTimeField(auto_now_add=True, verbose_name='date joined', editable=False)
   followers = models.ManyToManyField(to="self", symmetrical=False, blank=True)
   following_communities = models.ManyToManyField(to=Community, related_name='followed_communities', blank=True)
+  avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+  bio = models.TextField(max_length=500, blank=True, default='')
+  x_link = models.URLField(max_length=350, blank=True, default="",)
+  website_link = models.URLField(max_length=350, blank=True, default="",)
+  newsletter_link = models.URLField(max_length=350, blank=True, default="",)
+  yt_link = models.URLField(max_length=350, blank=True, default="",)
+  github_link = models.URLField(max_length=350, blank=True, default="",)
   objects = CustomUserManager()
   USERNAME_FIELD = "email"
   EMAIL_FIELD = "email"
@@ -54,3 +62,17 @@ class DeletedUser(models.Model):
 
   def __str__(self):
     return self.username
+
+
+class PasswordChangeLog(models.Model):
+
+  user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
+  timestamp = models.DateTimeField(default=timezone.now)
+
+  class Meta:
+    db_table = 'password_changes'
+    verbose_name = "password change"
+    verbose_name_plural = "password changes"
+
+  def __str__(self):
+    return f"{self.user.username} - {self.timestamp}"

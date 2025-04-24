@@ -3,5 +3,5 @@ from ..views import CategoriesView
 
 
 urlpatterns = [
-  path('explore/', CategoriesView.as_view(), name='categories'),
+  path('', CategoriesView.as_view(), name='communities'),
 ]

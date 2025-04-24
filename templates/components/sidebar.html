@@ -1,3 +1,9 @@
+{% url 'user_topics' user.username as user_topics_url %}
+{% url 'user_settings' user.username as user_settings_url %}
+{% url 'password_change' user.username as password_change_url %}
+{% url 'communities' as communities_url %}
+
+
 <nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
   <div class="container-fluid">
 
@@ -68,7 +74,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="{% url 'categories' %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == communities_url %}active fw-800{% endif %}" href="{% url 'communities' %}">
             Communities
           </a>
         </li>
@@ -77,11 +83,11 @@
             Search
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="{% url 'categories' %}">
+        <!-- <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="">
             Explore
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
             Stumble
@@ -93,12 +99,16 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+          <a class="nav-link text-dark fs-12 {% if request.path == user_topics_url %}active fw-800{% endif %}" href="{% url 'user_topics' user.username %}">
             Profile
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12 {% if request.path == user_settings_url or request.path == password_change_url %}active fw-800{% endif %}" href="{% url 'user_settings' user.username %}">
+            Settings
+          </a>
+        </li>
       </ul>
-
 
 
         

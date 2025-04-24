@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load humanize widget_tweaks %}
+{% block content %}
+<div class="header mt-6">
+  <div class="container-fluid">
+    <div class="header-body mt-n5 mt-md-n6">
+      <div class="row align-items-end">
+        <div class="col-auto">
+        {% if user.avatar %}
+          <a href="javascript:void(0)" class="avatar avatar-sm">
+            <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+          </a>
+          {% else %}
+          <div class="avatar avatar-sm">
+            <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+          </div>
+        {% endif %}
+        </div>
+        <div class="col mb-3 ms-n3 ms-md-n2">
+          <h6 class="header-pretitle">
+            Rank
+          </h6>
+          <h1 class="header-title fs-12">
+            {{user.username}}
+          </h1>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <ul class="nav nav-tabs nav-overflow header-tabs">
+            <li class="nav-item">
+              <a href="{% url 'user_topics' user.username %}" class="nav-link active">
+                Account
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'password_change' user.username %}" class="nav-link">
+                Security
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="" class="nav-link">
+                Billing
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form method="post" action="{% url 'user_settings' user.username %}" enctype="multipart/form-data" >{% csrf_token %}
+<div class="row justify-content-between align-items-center">
+  <div class="col">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        {% if user.avatar %}
+        <div class="avatar avatar-xxl">
+          <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+        </div>  
+        {% else %}
+        <div class="avatar">
+          <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="col ms-n2">
+        <h4 class="mb-1">Your avatar</h4>
+        <small class="text-body-secondary">PNG or JPG </small>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="form-group">
+      {{form.avatar|add_class:"btn btn-sm btn-white"}}
+    </div>
+  </div>
+</div>
+<hr class="my-5">
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.username.label_tag}}
+      <div class="mt-2">
+        {{form.username|add_class:"shadow-none form-control"}}
+        <span class="help-text d-block mt-1">
+        <span class="required-text fs-08">Required.</span>&nbsp;{{form.username.help_text}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.email.label_tag}}
+      <div class="mt-2">
+      {{form.email|add_class:"shadow-none form-control"}}
+      <span class="help-text d-block mt-1">
+      <span class="required-text fs-08">Required.</span>&nbsp;{{form.email.help_text}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<hr class="my-2">
+<div class="row">
+  <div class="col-12 col-md-12">
+    <div class="form-group">
+      {{form.bio.label_tag}}
+      <div class="mt-2">
+      {{form.bio|add_class:"shadow-none form-control"}}
+      <span class="help-text d-block mt-1">
+      <span class="optional-text fs-08">Optional.</span>&nbsp;{{form.bio.help_text}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.website_link.label_tag}}
+      <div class="mt-2">
+        {% render_field form.website_link class+="form-control shadow-none" autocomplete="off" placeholder="Enter your website link" %}
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.x_link.label_tag}}
+      <div class="mt-2">
+        {% render_field form.x_link class+="form-control shadow-none" autocomplete="off" placeholder="Enter your X link" %}
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.newsletter_link.label_tag}}
+      <div class="mt-2">
+        {% render_field form.newsletter_link class+="form-control shadow-none" autocomplete="off" placeholder="Enter your newsletter link" %}
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.yt_link.label_tag}}
+      <div class="mt-2">
+        {% render_field form.yt_link class+="form-control shadow-none" autocomplete="off" placeholder="Enter your YouTube link" %}
+        <!-- <span class="help-text d-block mt-1">
+        <span class="optional-text fs-08">Optional.</span>&nbsp;{{form.yt_link.help_text}}</span> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      {{form.github_link.label_tag}}
+      <div class="mt-2">
+        {% render_field form.github_link class+="form-control shadow-none" autocomplete="off" placeholder="Enter your GitHub link" %}
+      </div>
+    </div>
+  </div>
+</div>
+<button class="btn btn-primary">Save changes</button>
+</form>
+<hr class="my-5">
+<div class="row justify-content-between mb-6">
+  <div class="col-12 col-md-6">
+    <h4>Delete your account</h4>
+    <p class="small text-body-secondary mb-md-0">
+      Please note, deleting your account is a permanent action and will no be recoverable once completed.
+    </p>
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-danger">Delete</button>
+  </div>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import F
 from django.urls import reverse_lazy, reverse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from core.models import Community
@@ -50,3 +51,38 @@ class TopicDetailView(LoginRequiredMixin, DetailView):
       TopicView.objects.create(topic=topic, user=self.request.user)
       Topic.objects.filter(pk=topic.pk).update(views=F('views') + 1)
     return topic
+
+
+class UserTopicsView(LoginRequiredMixin, ListView):
+
+  context_object_name = 'topics'
+  http_method_names = ["get", "post",]
+  template_name = 'topics/user_topics.html'
+
+  def get_queryset(self):
+    topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
+    return topics
+
+
+class TopicDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+
+  context_object_name = 'topic'
+  permission_required = ('accounts.full_access_to_entire_platform',)
+  http_method_names = ["get", "post"]
+  
+  def handle_no_permission(self):
+    return HttpResponseRedirect(reverse('billing', kwargs={'username': self.request.user}))
+
+  def get_object(self):
+    topic = Topic.objects.get(user=self.request.user, slug=self.kwargs['slug'])
+    return topic
+
+  def post(self, request, *args, **kwargs):
+    topic = Topic.objects.get(user=self.request.user, slug=self.kwargs['slug'])
+    topic.delete()
+
+    if request.headers.get('HX-Request'):
+      topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
+      return render(request, 'topics/partials/u_topics.html', {'topics': topics})
+    else:
+      return HttpResponseRedirect(self.get_success_url())
