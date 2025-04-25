@@ -2,7 +2,9 @@
 {% url 'user_settings' user.username as user_settings_url %}
 {% url 'password_change' user.username as password_change_url %}
 {% url 'communities' as communities_url %}
-
+{% url 'user_communities' user.username as user_communities_url %}
+{% url 'search_all_topics' as search_all_topics_url %}
+{% url 'community' community.slug as community_url %}
 
 <nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
   <div class="container-fluid">
@@ -74,12 +76,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12 {% if request.path == communities_url %}active fw-800{% endif %}" href="{% url 'communities' %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == communities_url or request.path == community_url %}active fw-800{% endif %}" href="{% url 'communities' %}">
             Communities
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+          <a class="nav-link text-dark fs-12 {% if request.path == search_all_topics_url %}active fw-800{% endif %}" href="{% url 'search_all_topics' %}">
             Search
           </a>
         </li>
@@ -99,7 +101,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12 {% if request.path == user_topics_url %}active fw-800{% endif %}" href="{% url 'user_topics' user.username %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == user_topics_url or request.path == user_communities_url %}active fw-800{% endif %}" href="{% url 'user_topics' user.username %}">
             Profile
           </a>
         </li>

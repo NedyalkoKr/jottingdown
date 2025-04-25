@@ -1,0 +1,119 @@
+{% extends '../base.html' %}
+{% block content %}
+<div class="header mt-6">
+  <div class="container-fluid">
+    <div class="header-body mt-n5 mt-md-n6">
+      <div class="row align-items-end">
+        <div class="col-auto">
+        {% if user.avatar %}
+          <a href="javascript:void(0)" class="avatar avatar-sm">
+            <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+          </a>
+          {% else %}
+          <div class="avatar avatar-sm">
+            <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+          </div>
+        {% endif %}
+        </div>
+        <div class="col mb-3 ms-n3 ms-md-n2">
+          <h6 class="header-pretitle">
+            Rank
+          </h6>
+          <h1 class="header-title fs-12">
+            {{user.username}}
+          </h1>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <ul class="nav nav-tabs nav-overflow header-tabs">
+            <li class="nav-item">
+              <a href="{% url 'user_topics' user.username %}" class="nav-link">
+                Topics
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="profile-groups.html" class="nav-link">
+                Bookmarks
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="profile-projects.html" class="nav-link">
+                Saved 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="" class="nav-link">
+                People
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'user_communities' user.username %}" class="nav-link active">
+                Communities
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-sm table-nowrap card-table">
+    <thead>
+      <tr>
+        <th colspan="5">
+          {{ category.communities.all|length }} Communities
+        </th>
+        <th width="50">
+          <a href="#" class="text-body-secondary list-sort" data-sort="orders-total">
+            Topics
+          </a>
+        </th>
+        <th width="50">
+          <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
+            Opinions
+          </a>
+        </th>
+        <th width="50">
+          <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
+            Followers
+          </a>
+        </th>
+        <th width="50"></th>
+      </tr> 
+    </thead>
+    <tbody class="list">
+      {% for community in communities %}
+      <tr>
+
+        <td class="orders-order" colspan="5">
+          <a href="{% url 'community' community.slug %}" class="fs-1 text-dark">{{community|capfirst}}</a>
+        </td>
+        <td class="orders-product" width="50">
+          {{ community.topic_set.all|length }}
+        </td>
+        <td class="orders-product" width="50">
+          {{ community.answers.all|length }}
+        </td>
+        <td class="orders-product" width="50">
+          {{ community.followed_communities.count }}
+        </td>
+        <td class="orders-product" width="50">
+          {% if community in user.following_communities.all %}
+          <form method="post" action="{% url 'unfollow_community' community.slug %}">{% csrf_token %}
+            <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+          </form>
+          {% else %}
+          <form method="post" action="{% url 'follow_community' community.slug %}">{% csrf_token %}
+            <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}
+

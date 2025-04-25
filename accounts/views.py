@@ -8,12 +8,12 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.views.generic import ListView, UpdateView
-from .forms import UserProfileSettingsChangeForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordChangeView, PasswordChangeDoneView, PasswordResetCompleteView
 from topics.models import Topic
-from .forms import UserPasswordChangeForm
+from core.models import Community
+from .forms import UserProfileSettingsChangeForm, UserPasswordChangeForm
 User = get_user_model()
 
 
@@ -26,7 +26,22 @@ class UserTopicsView(LoginRequiredMixin, ListView):
   def get_queryset(self):
     topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
     return topics
-  
+
+  def get_queryset(self):
+    topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
+    return topics
+
+
+class UserCommunitiesView(LoginRequiredMixin, ListView):
+
+  context_object_name = 'communities'
+  http_method_names = ["get", "post",]
+  template_name = 'communities/user_communities.html'
+
+  def get_queryset(self):
+    communities = Community.objects.filter(followed_communities=self.request.user).order_by('name')
+    return communities
+
 
 class UserProfileSettingsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, UpdateView):
 

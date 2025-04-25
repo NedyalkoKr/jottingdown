@@ -20,3 +20,25 @@ class SavedSearch(models.Model):
   def save(self, *args, **kwargs):
     self.name = self.name.lower()
     super(SavedSearch, self).save(*args, **kwargs)
+
+
+class SearchHistory(models.Model):
+
+  search_history_id = RandomCharField(length=64)
+  slug = AutoSlugField(populate_from="search_history_id", always_update=True, editable=False, null=True)  
+  query = models.CharField(max_length=255)
+  timestamp = models.DateTimeField(auto_now_add=True)
+  search_count = models.PositiveIntegerField(default=0)
+
+  class Meta:
+    ordering = ['-timestamp']
+    db_table = 'search_history'
+    verbose_name = "search history"
+    verbose_name_plural = "search history"
+
+  def save(self, *args, **kwargs):
+    self.query = self.query.lower()
+    super(SearchHistory, self).save(*args, **kwargs)
+
+  def __str__(self):
+    return f"{self.query}"

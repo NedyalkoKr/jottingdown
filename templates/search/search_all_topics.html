@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="row mb-4 mt-4">
+  <div class="col">
+
+
+    <form action="{% url 'search_all_topics' %}" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
+      <div class="input-group input-group-lg input-group-merge input-group-reverse">
+
+        <input type="search" name="sq" value="{{ request.GET.sq|default:'' }}" placeholder="Search" class="form-control dropdown-toggle list-search" autocomplete="off">
+
+ 
+        <div class="input-group-text">
+          <i class="las la-search"></i>
+        </div>
+
+      </div>
+    </form>
+
+  </div>
+  <div class="col-auto">
+
+  
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+  <div class="card shadow-none">
+    <div class="card-body">
+
+      <!-- List group -->
+      <div class="list-group list-group-flush my-n3">
+        {% for topic in topics %}
+        <div class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col ms-n2">
+
+              <!-- Title -->
+              <h4 class="mb-1">
+                <a href="project-overview.html">Homepage Redesign</a>
+              </h4>
+
+              <!-- Text -->
+              <p class="small text-body-secondary mb-0">
+                <time datetime="2018-06-21">Updated 2hr ago</time>
+              </p>
+
+            </div>
+            <div class="col-auto">
+
+              <!-- Dropdown -->
+              <div class="dropdown">
+                <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fe fe-more-vertical"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a href="#!" class="dropdown-item">
+                    Action
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    Another action
+                  </a>
+                  <a href="#!" class="dropdown-item">
+                    Something else here
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div> <!-- / .row -->
+        </div>
+        {% endfor %}
+      </div>
+    </div> <!-- / .card-body -->
+  </div>
+</div>
+
+
+{% endblock %}
