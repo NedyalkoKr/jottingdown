@@ -58,7 +58,7 @@
     </div>
   </div>
 </div>
-<form action="" method="get" class="mt-4">
+<form action="{% url 'search_user_topics' user.username %}" method="get" class="mt-4">
   <div class="input-group mb-3">
     <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search your topics" class="form-control" autocomplete="off">
     <button class="btn btn-outline-secondary" type="submit">Search</button>

@@ -20,6 +20,6 @@ class SearchHistoryAdmin(admin.ModelAdmin):
   fieldsets = (
     ('New search history'),
     {
-      'fields': ('query',)
+      'fields': ('query', 'user',)
     },
   ),

@@ -3,18 +3,19 @@
 {% block title %}New Topic{% endblock title %}
 {% block content %}
 <div class="header">
-<div class="container-fluid">
-  <div class="header-body pb-2">
-    <div class="row align-items-end">
-      <div class="col">
-        <h6 class="header-pretitle">
-          <a href="{% url 'communities' %}">Communities</a>
-        </h6>
-        <h1 class="header-title fs-12">
-          {{community|capfirst}}
-        </h1>
+  <div class="container-fluid">
+    <div class="header-body pb-2">
+      <div class="row align-items-end">
+        <div class="col">
+          <h6 class="header-pretitle">
+            <a href="{% url 'communities' %}">Communities</a>
+          </h6>
+          <h1 class="header-title fs-12">
+            {{community|capfirst}}
+          </h1>
+        </div>
+        <div class="col-auto"></div>
       </div>
-      <div class="col-auto"></div>
     </div>
   </div>
 </div>
@@ -36,7 +37,7 @@
   </div>
   <div class="card-body">
     <form action="{% url 'new_topic' community.slug %}" method="post">{% csrf_token %}
-      <div class="my-n3">
+      <div class="my-n2">
         <div class="row mb-2">
           <div class="col-sm-12">
             <div class="form-group">
@@ -51,8 +52,8 @@
               {% endif %}
             </div>
           </div>
-          <div class="row mb-2">
-            <div class="col-sm-12">
+          <div class="row mb-2 mb-md-3">
+            <div class="col-12 col-md-10 col-lg-12 mx-auto">
               <div class="form-group overflow-auto">
                 <div class="d-flex fs-08 mb-2">
                   {{form.content.label_tag}}

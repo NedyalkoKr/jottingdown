@@ -1,0 +1,15 @@
+<div id="topic-{{ topic.slug }}" class="card mb-3 shadow-none">
+  <div class="card-body">
+    <div 
+      hx-get="{% url 'update_topic' topic.slug %}" 
+      hx-target="#topic-{{ topic.slug }}" 
+      hx-swap="outerHTML" 
+      class="topic-display"
+      style="cursor: pointer;"
+    >
+      <h5>{{ topic.title }}</h5>
+      <p>{{ topic.content|safe|truncatewords:30 }}</p>
+      <small>Created: {{ topic.created|date }}</small>
+    </div>
+  </div>
+</div>

@@ -4,45 +4,30 @@
 {% url 'communities' as communities_url %}
 {% url 'user_communities' user.username as user_communities_url %}
 {% url 'search_all_topics' as search_all_topics_url %}
+{% url 'searches' as searches_url %}
 {% url 'community' community.slug as community_url %}
 
 <nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
   <div class="container-fluid">
-
-    <!-- Toggler -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <!-- User (xs) -->
     <div class="navbar-user d-md-none">
-
-      <!-- Dropdown -->
       <div class="dropdown">
-
-        <!-- Toggle -->
         <a href="#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="avatar avatar-sm avatar-online">
-            <img src="./assets/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle" alt="...">
+            <img src="" class="avatar-img rounded-circle" alt="...">
           </div>
         </a>
-
-        <!-- Menu -->
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarIcon">
-          <a href="./profile-posts.html" class="dropdown-item">Profile</a>
-          <a href="./account-general.html" class="dropdown-item">Settings</a>
+          <a href="{% url 'user_topics' user.username %}" class="dropdown-item">Profile</a>
+          <a href="{% url 'user_settings' user.username %}" class="dropdown-item">Settings</a>
           <hr class="dropdown-divider">
-          <a href="./sign-in.html" class="dropdown-item">Logout</a>
+          <a href="{% url 'user_logout' %}" class="dropdown-item">Logout</a>
         </div>
-
       </div>
-
     </div>
-
-    <!-- Collapse -->
     <div class="collapse navbar-collapse" id="sidebarCollapse">
-
-      <!-- Form -->
       <form class="mt-4 mb-3 d-md-none">
         <div class="input-group input-group-rounded input-group-merge input-group-reverse">
           <input class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -51,27 +36,19 @@
           </div>
         </div>
       </form>
-
-    
-
-     
-
-      <!-- Navigation -->
       <ul class="navbar-nav mb-md-4">
-
-
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+          <a class="nav-link text-dark fs-12" href="">
             For You
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+          <a class="nav-link text-dark fs-12" href="">
             Follow
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
+          <a class="nav-link text-dark fs-12" href="">
             People
           </a>
         </li>
@@ -81,7 +58,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12 {% if request.path == search_all_topics_url %}active fw-800{% endif %}" href="{% url 'search_all_topics' %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == search_all_topics_url or request.path == searches_url %}active fw-800{% endif %}" href="{% url 'searches' %}">
             Search
           </a>
         </li>
@@ -111,13 +88,15 @@
           </a>
         </li>
       </ul>
-
-
-        
-       
-
-
+      <button type="button" class="btn btn-sm btn-primary border-0">New Topic</button>
     </div>
-
+    <div class="navbar-user d-none d-md-flex" id="sidebarUser">
+      <a href="javascript:void(0);">
+        <form method="post" action="{% url 'user_logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-white border-0"><i class="bi bi-box-arrow-right la-lg"></i></button>
+        </form>
+      </a>
+    </div>
   </div>
 </nav>

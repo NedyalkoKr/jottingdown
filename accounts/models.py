@@ -44,6 +44,7 @@ class CustomUser(AbstractUser):
     db_table = 'users'
     verbose_name = 'user'
     verbose_name_plural = 'users'
+    unique_together = ('username', 'email')
   
   def __str__(self):
     return self.username

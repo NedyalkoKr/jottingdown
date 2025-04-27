@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mb-4 mt-4">
+  <div class="col">
+    <form action="{% url 'search_all_topics' %}" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
+      <div class="input-group input-group-lg input-group-merge input-group-reverse">
+        <input type="search" name="sq" value="{{ request.GET.sq|default:'' }}" placeholder="Search" class="form-control dropdown-toggle list-search" autocomplete="off">
+        <div class="input-group-text">
+          <i class="las la-search"></i>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row mb-4 mt-4">
+  <div class="col-12 col-lg">
+    <div class="card shadow-none">
+      <div class="card-header">
+        <h4 class="card-header-title">
+          Searches
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="list-group list-group-flush my-n3">
+          {% for search in searches %}
+          <div class="list-group-item">
+            <div class="row align-items-center">
+              <div class="col ms-n2">
+                <h4 class="mb-1">
+                  <a href="{% url 'search_all_topics' %}?sq={{search.query}}">{{search.query}}</a>
+                </h4>
+                <p class="mb-0 fs-08 px-2">{{search.total_count}} searches</p>
+              </div>
+              <div class="col-auto">
+                <a href="#!" class="btn btn-sm btn-white">
+                  Follow
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

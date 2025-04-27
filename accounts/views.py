@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -13,8 +14,31 @@ from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMi
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordChangeView, PasswordChangeDoneView, PasswordResetCompleteView
 from topics.models import Topic
 from core.models import Community
-from .forms import UserProfileSettingsChangeForm, UserPasswordChangeForm
+from .forms import UserProfileSettingsChangeForm, UserPasswordChangeForm, UserLoginForm
 User = get_user_model()
+
+
+class UserLoginView(LoginView):
+
+  form_class = UserLoginForm
+  http_method_names = ["get", "post"]
+  redirect_authenticated_user = True
+  template_name = "users/account/user_login.html"
+
+  def get_success_url(self):
+    return reverse('user_topics', kwargs={'username': self.request.user.username })
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['dev_or_prod'] = settings.DEBUG
+    # context['GOOGLE_OAUTH_CLIENT_ID'] = settings.GOOGLE_OAUTH_CLIENT_ID
+    # context['GOOGLE_LOGIN_URI'] = settings.GOOGLE_LOGIN_URI
+    return context
+
+
+class UserLogoutView(LogoutView):
+  next_page = 'user_login'
+  template_name = None
 
 
 class UserTopicsView(LoginRequiredMixin, ListView):
@@ -22,10 +46,6 @@ class UserTopicsView(LoginRequiredMixin, ListView):
   context_object_name = 'topics'
   http_method_names = ["get", "post",]
   template_name = 'topics/user_topics.html'
-
-  def get_queryset(self):
-    topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
-    return topics
 
   def get_queryset(self):
     topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')

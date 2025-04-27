@@ -28,6 +28,7 @@ class SearchHistory(models.Model):
   slug = AutoSlugField(populate_from="search_history_id", always_update=True, editable=False, null=True)  
   query = models.CharField(max_length=255)
   timestamp = models.DateTimeField(auto_now_add=True)
+  user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='search_history', null=True)
   search_count = models.PositiveIntegerField(default=0)
 
   class Meta:
@@ -35,6 +36,7 @@ class SearchHistory(models.Model):
     db_table = 'search_history'
     verbose_name = "search history"
     verbose_name_plural = "search history"
+    unique_together = ('user', 'query')
 
   def save(self, *args, **kwargs):
     self.query = self.query.lower()

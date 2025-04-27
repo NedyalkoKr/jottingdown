@@ -1,82 +1,71 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block content %}
-
-
 <div class="row mb-4 mt-4">
   <div class="col">
-
-
     <form action="{% url 'search_all_topics' %}" method="get" class="form-inline me-4 d-none d-lg-flex w-100">
       <div class="input-group input-group-lg input-group-merge input-group-reverse">
-
         <input type="search" name="sq" value="{{ request.GET.sq|default:'' }}" placeholder="Search" class="form-control dropdown-toggle list-search" autocomplete="off">
-
- 
         <div class="input-group-text">
           <i class="las la-search"></i>
         </div>
-
       </div>
     </form>
-
-  </div>
-  <div class="col-auto">
-
-  
   </div>
 </div>
-
-<div class="row">
-  <div class="col-12">
-  <div class="card shadow-none">
-    <div class="card-body">
-
-      <!-- List group -->
-      <div class="list-group list-group-flush my-n3">
-        {% for topic in topics %}
-        <div class="list-group-item">
-          <div class="row align-items-center">
-            <div class="col ms-n2">
-
-              <!-- Title -->
-              <h4 class="mb-1">
-                <a href="project-overview.html">Homepage Redesign</a>
-              </h4>
-
-              <!-- Text -->
-              <p class="small text-body-secondary mb-0">
-                <time datetime="2018-06-21">Updated 2hr ago</time>
-              </p>
-
+{% if search_count > 0 %}
+<div class="mb-4">
+  <p class="text fs-11 fw-800">Found {{ search_count }} results for "{{ search_query }}"</p>
+</div>
+{% else %}
+<div class="mb-4">
+  <p class="text fs-11 fw-800">Found {{ search_count }} results for "{{ search_query }}"</p>
+</div>
+{% endif %}
+<div class="card shadow-none">
+  <div class="card-header">
+    <ul class="nav nav-tabs mb-0">
+      <li class="nav-item">
+        <a class="nav-link active" href="#!">Topics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#!">Comments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#!">Link</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="list-group list-group-flush my-n3">
+      {% for topic in topics %}
+      <div class="list-group-item">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            {% if topic.user.avatar %}
+            <a href="javascript:void(0)" class="avatar avatar-xs">
+              <img src="{{topic.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+            </a>
+            {% else %}
+            <div class="avatar avatar-xs">
+              <span class="avatar-title rounded-circle">{{topic.user.username|slice:":2"}}</span>
             </div>
-            <div class="col-auto">
-
-              <!-- Dropdown -->
-              <div class="dropdown">
-                <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fe fe-more-vertical"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end">
-                  <a href="#!" class="dropdown-item">
-                    Action
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    Another action
-                  </a>
-                  <a href="#!" class="dropdown-item">
-                    Something else here
-                  </a>
-                </div>
-              </div>
-
-            </div>
-          </div> <!-- / .row -->
+            {% endif %}
+          </div>
+          <div class="col ms-n2">
+            <h4 class="mb-1"><i class="bi bi-person"></i>&nbsp;&nbsp;{{topic.user.username}}&nbsp;&nbsp;&nbsp;</h4>
+            <p class="card-text small text-body-secondary">
+              <time datetime="{{topic.created}}">{{topic.created|naturaltime}}</time>
+            </p>
+          </div>
         </div>
-        {% endfor %}
+        <div class="card-body">
+          <h2 class="fs-12 fw-800">{{topic.search_title_highlight|safe}}</h2>
+          <p class="text fs-11">{{topic.search_content_highlight|safe}}</p>
+        </div>
       </div>
-    </div> <!-- / .card-body -->
+      {% endfor %}
+    </div>
   </div>
 </div>
-
-
 {% endblock %}

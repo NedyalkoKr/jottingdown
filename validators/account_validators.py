@@ -157,7 +157,7 @@ class OffensiveWordsValidator(RegexValidator):
         # ^gay\b        
     '''
     OFFENSIVE_WORDS = [
-        "creampie", "cuckold", "vulva", "fuck", "cunnilingus", "lovegoo", "lovebone", "lovegun",
+        "creampie", "cuckold", "vulva", "cunnilingus", "lovegoo", "lovebone", "lovegun",
         "pussy", "milf", "jizz", "pussies", "ebony", "prostitute", "bukkake", "vagina", "dildo",
         "sodomize", "dyke", "nipple", "masturbate", "skank", "morgue", "stripper", "lolita",
         "cameltoe", "queer", "incest", "feces", "rimjob", "shemale", "fisting", "footjob",
@@ -170,10 +170,7 @@ class OffensiveWordsValidator(RegexValidator):
         "twat", "prolapse", "orgasm", "gagging", "pedophile", "dominatrix", "gloryhole", "smegma",
         "suicide", "futanari", "jugs", "nutsack", "titty", "tgirl", "brothel", "ejaculate", "slut",
         "shitter", "shitting", "shitstain", "skinflute", "swingers", "handjob", "nudity",
-        "dragqueen", "twerk", "lesbian", "masturbating", "whore", "striptease", "fucking",
-        "farting", "asshole", "arsehole", "bastard", "horseshit", "dickhead", "wanker", "punani",
-        "minge", "bisexual", "transgender", "transgendered", "bareback", "homosexual", "voyeurism",
-        "pedophilia", "sex", "pu\$\$y"
+        "dragqueen", "twerk", "lesbian", "masturbating", "whore", "striptease", "farting", "asshole", "arsehole", "bastard", "horseshit", "dickhead", "wanker", "punani", "minge", "bisexual", "transgender", "transgendered", "bareback", "homosexual", "voyeurism", "pedophilia", "sex", "pu\$\$y"
     ]
     regex = r"\b(" + "|".join(OFFENSIVE_WORDS) + r")\b"
     message = f"Do not use offensive word(s)."

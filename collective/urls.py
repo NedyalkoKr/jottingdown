@@ -1,9 +1,9 @@
 """ URL configuration for collective project. """
 
-
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
+from accounts.views import UserLoginView, UserLogoutView
 
 
 if settings.DEBUG:
@@ -17,6 +17,9 @@ else:
 
 
 urlpatterns = [
+    path(route='login/', view=UserLoginView.as_view(), name='user_login'),
+    path(route='logout/', view=UserLogoutView.as_view(), name='user_logout'),
+    path(route='account/', view=include('accounts.urls.account_urls')),
     path(route='profile/', view=include('accounts.urls.profile_urls')),
     path(route='settings/', view=include('accounts.urls.settings_urls')),
     path(route='topic/', view=include('topics.urls.topic_urls')),

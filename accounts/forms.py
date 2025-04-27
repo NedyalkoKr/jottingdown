@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth import get_user_model, password_validation
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, AuthenticationForm
 from .models import PasswordChangeLog
 User = get_user_model()
 
@@ -153,3 +153,37 @@ class UserPasswordChangeForm(PasswordChangeForm):
     if commit and self.request:
       PasswordChangeLog.objects.create(user=user,)
     return user
+
+
+class UserLoginForm(AuthenticationForm):
+
+  username = forms.EmailField(
+    max_length=64, required=True,
+    widget=forms.EmailInput(
+      attrs={
+        "autocomplete": "off",
+        "class": "form-control form-control-lg",
+        "autofocus": False,
+        "data-bs-container": "body",
+        "data-bs-toggle": "popover",
+        "data-bs-trigger": "hover",
+        "data-bs-placement": "right",
+        "data-bs-content": "Enter the email you have used to sign up.",
+      } 
+    ),
+  )
+  password = forms.CharField(
+    min_length=12, max_length=settings.PASSWORD_MAX_LENGTH, required=True, strip=True,
+    widget=forms.PasswordInput(
+      render_value=False,
+      attrs={
+        "autocomplete": "off",
+        "class": "form-control form-control-lg",
+        "data-bs-container": "body",
+        "data-bs-placement": "right",
+        "data-bs-toggle": "popover",
+        "data-bs-trigger": "hover",
+        "data-bs-content": "Enter your password.",
+      },
+    ),
+  )

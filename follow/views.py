@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,6 +15,13 @@ class FollowCommunityView(LoginRequiredMixin, View):
     request.user.following_communities.add(community)
     # community.save()
     # messages.success(request, 'You are now following this community')
+
+    if request.htmx:
+      # Render the follow/unfollow button partial
+      context = {'community': community, 'user': request.user}
+      html = render_to_string('communities/partials/_follow_button.html', context)
+      return HttpResponse(html)
+
     referer = request.META.get('HTTP_REFERER', '')
     if 'categories' in referer:
       return redirect('categories')
@@ -25,6 +34,10 @@ class UnfollowCommunityView(LoginRequiredMixin, View):
     request.user.following_communities.remove(community)
     # community.save()
     # messages.success(request, 'You are no longer following this community')
+    if request.htmx:
+      context = {'community': community, 'user': request.user}
+      html = render_to_string('communities/partials/_follow_button.html', context)
+      return HttpResponse(html)
     referer = request.META.get('HTTP_REFERER', '')
     if 'categories' in referer:
       return redirect('categories')

@@ -58,35 +58,34 @@
     </div>
   </div>
 </div>
-<div class="table-responsive">
-  <table class="table table-sm table-nowrap card-table">
-    <thead>
-      <tr>
-        <th colspan="5">
-          {{ category.communities.all|length }} Communities
-        </th>
-        <th width="50">
-          <a href="#" class="text-body-secondary list-sort" data-sort="orders-total">
-            Topics
-          </a>
-        </th>
-        <th width="50">
-          <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
-            Opinions
-          </a>
-        </th>
-        <th width="50">
-          <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
-            Followers
-          </a>
-        </th>
-        <th width="50"></th>
-      </tr> 
+<div class="card shadow-none">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-sm table-nowrap card-table">
+        <thead>
+          <tr>
+            <th colspan="5">{{ user.following_communities.count }} communities</th>
+            <th width="50">
+              <a href="#" class="text-body-secondary list-sort" data-sort="orders-total">
+                Topics
+              </a>
+            </th>
+            <th width="50">
+              <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
+                Opinions
+              </a>
+            </th>
+            <th width="50">
+              <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
+                Followers
+              </a>
+            </th>
+            <th width="50"></th>
+        </tr> 
     </thead>
     <tbody class="list">
       {% for community in communities %}
       <tr>
-
         <td class="orders-order" colspan="5">
           <a href="{% url 'community' community.slug %}" class="fs-1 text-dark">{{community|capfirst}}</a>
         </td>
@@ -114,6 +113,8 @@
       {% endfor %}
     </tbody>
   </table>
+</div>
+</div>
 </div>
 {% endblock content %}
 
