@@ -56,27 +56,6 @@ class UpdateTopicView(LoginRequiredMixin, UpdateView):
     return self.request.META.get('HTTP_REFERER', reverse_lazy('user_topics', kwargs={'username': self.request.user.username}))
 
 
-
-class TopicDetailView(LoginRequiredMixin, DetailView):
-
-  model = Topic
-  context_object_name = 'topic'
-  http_method_names = ["get", "post",]
-  template_name = 'topics/topic.html'
-
-  def get_object(self, queryset=None):
-    community = Community.objects.get(slug=self.kwargs['slug'])
-    topic = Topic.objects.get(
-      user=self.request.user,
-      community=community,
-      pk=self.kwargs['topic_pk']
-    )
-    if not TopicView.objects.filter(topic=topic, user=self.request.user).exists():
-      TopicView.objects.create(topic=topic, user=self.request.user)
-      Topic.objects.filter(pk=topic.pk).update(views=F('views') + 1)
-    return topic
-
-
 class TopicDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
   context_object_name = 'topic'

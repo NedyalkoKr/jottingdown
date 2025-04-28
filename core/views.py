@@ -1,8 +1,10 @@
+from django.db.models import F
 from django.utils import timezone
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from .models import Category, Community
-from topics.models import Topic
+from topics.models import Topic, TopicView
 from topics.forms import TopicModelForm
 
 
@@ -42,3 +44,23 @@ class CommunityLatestTopicsView(LoginRequiredMixin, DetailView):
     context = super().get_context_data(**kwargs)
     context['community'] = Community.objects.get(slug=self.kwargs['slug'])
     return context
+
+
+class TopicDetailView(LoginRequiredMixin, DetailView):
+
+  model = Topic
+  http_method_names = ["get", "post",]
+  context_object_name = 'topic'
+  template_name = 'topics/topic.html'
+
+  def get_object(self):
+    community = get_object_or_404(Community, slug=self.kwargs['slug'])
+    topic = get_object_or_404(
+      Topic,
+      community=community,
+      pk=self.kwargs['topic_pk']
+    )
+    if not TopicView.objects.filter(topic=topic, user=self.request.user).exists():
+      TopicView.objects.create(topic=topic, user=self.request.user)
+      Topic.objects.filter(pk=topic.pk).update(views=F('views') + 1)
+    return topic

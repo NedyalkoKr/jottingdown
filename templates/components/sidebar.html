@@ -6,6 +6,7 @@
 {% url 'search_all_topics' as search_all_topics_url %}
 {% url 'searches' as searches_url %}
 {% url 'community' community.slug as community_url %}
+{% url 'search_user_topics' user.username as search_user_topics_url %}
 
 <nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
   <div class="container-fluid">
@@ -44,11 +45,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark fs-12" href="">
-            Follow
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="">
             People
           </a>
         </li>
@@ -78,7 +74,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12 {% if request.path == user_topics_url or request.path == user_communities_url %}active fw-800{% endif %}" href="{% url 'user_topics' user.username %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == user_topics_url or request.path == user_communities_url or request.path == search_user_topics_url %}active fw-800{% endif %}" href="{% url 'user_topics' user.username %}">
             Profile
           </a>
         </li>
@@ -88,7 +84,6 @@
           </a>
         </li>
       </ul>
-      <button type="button" class="btn btn-sm btn-primary border-0">New Topic</button>
     </div>
     <div class="navbar-user d-none d-md-flex" id="sidebarUser">
       <a href="javascript:void(0);">

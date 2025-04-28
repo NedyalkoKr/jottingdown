@@ -22,17 +22,15 @@
   <p class="text fs-11 fw-800">Found {{ search_count }} results for "{{ search_query }}"</p>
 </div>
 {% endif %}
+{% if search_count > 0 %}
 <div class="card shadow-none">
-  <div class="card-header">
+  <div class="card-header border-0">
     <ul class="nav nav-tabs mb-0">
       <li class="nav-item">
-        <a class="nav-link active" href="#!">Topics</a>
+        <a class="nav-link active" href="{% url 'search_all_topics' %}?sq={{ request.GET.sq|default:'' }}">Topics</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#!">Comments</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#!">Link</a>
       </li>
     </ul>
   </div>
@@ -68,4 +66,5 @@
     </div>
   </div>
 </div>
+{% endif %}
 {% endblock %}

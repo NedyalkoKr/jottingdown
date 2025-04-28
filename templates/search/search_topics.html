@@ -5,6 +5,11 @@
   <div class="container-fluid">
     <div class="header-body pb-2">
       <div class="row">
+        <div class="col-auto">
+          <a href="{% url 'community' community.slug %}">
+            <i class="bi bi-arrow-left-circle la-2x text-dark"></i>
+          </a>
+        </div>
         <div class="col">
           <h1 class="header-title fs-13">
             <a href="{% url 'community' community.slug %}">{{ community|capfirst }}</a>
@@ -14,56 +19,78 @@
             <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
           </ul>
         </div>
-        <div class="col-auto px-0">
-          
-        </div>
       </div>
     </div>
-    <form action="{% url 'search_community_topics' community.slug %}" method="get" class="mt-4">
-      <div class="input-group mb-3">
-        <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search topics" class="form-control" autocomplete="off">
-        <button class="btn btn-outline-secondary" type="submit">Search</button>
-      </div>
-    </form>
   </div>
 </div>
-{% for topic in topics %}
-<div class="card shadow-none mt-4 border-0">
-  <div id="topic-{{ topic.slug }}" class="card shadow-none mt-0 mb-0 rounded">
-    <div class="card-body pt-0 px-5">
-      <div class="card-header mb-2 border-0 px-0 mt-3">
-        <div class="row align-items-center">
-          <div class="col-auto">
-            {% if topic.user.avatar %}
-            <a href="javascript:void(0)" class="avatar avatar-xs">
-              <img src="{{topic.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
-            </a>
-            {% else %}
-            <div class="avatar avatar-xs">
-              <span class="avatar-title rounded-circle">{{topic.user.username|slice:":2"}}</span>
+<form action="{% url 'search_community_topics' community.slug %}" method="get" class="mt-4">
+  <div class="input-group mb-3">
+    <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search topics" class="form-control" autocomplete="off">
+    <button class="btn btn-outline-secondary" type="submit">Search</button>
+  </div>
+</form>
+{% if search_count > 0 %}
+<div class="mb-4">
+  <p class="text fs-11 fw-800">Found {{ search_count }} results for "{{ search_query }}"</p>
+</div>
+{% else %}
+<div class="mb-4">
+  <p class="text fs-11 fw-800">Found {{ search_count }} results for "{{ search_query }}"</p>
+</div>
+{% endif %}
+{% if search_count > 0 %}
+<div class="card shadow-none">
+  <div class="card-body">
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'search_community_topics' community.slug %}?q={{ request.GET.q|default:'' }}">Topics</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#!">Comments</a>
+      </li>
+    </ul>
+    {% for topic in topics %}
+    <div id="topic-{{ topic.slug }}" class="card shadow-none mt-0 mb-0 rounded-0 border-0 border-bottom">
+      <div class="card-body pt-0 px-5">
+        <div class="card-header mb-2 border-0 px-0 mt-3">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              {% if topic.user.avatar %}
+              <a href="javascript:void(0)" class="avatar avatar-xs">
+                <img src="{{topic.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+              </a>
+              {% else %}
+              <div class="avatar avatar-xs">
+                <span class="avatar-title rounded-circle">{{topic.user.username|slice:":2"}}</span>
+              </div>
+              {% endif %}
             </div>
-            {% endif %}
+            <div class="col ms-n2">
+              <h4 class="mb-1"><i class="bi bi-person"></i>&nbsp;&nbsp;{{topic.user.username}}&nbsp;&nbsp;&nbsp;</h4>
+              <p class="card-text small text-body-secondary">
+                <time datetime="{{topic.created}}">{{topic.created|naturaltime}}</time>
+              </p>
+            </div> 
           </div>
-          <div class="col ms-n2">
-            <h4 class="mb-1"><i class="bi bi-person"></i>&nbsp;&nbsp;{{topic.user.username}}&nbsp;&nbsp;&nbsp;</h4>
-            <p class="card-text small text-body-secondary">
-              <time datetime="{{topic.created}}">{{topic.created|naturaltime}}</time>
-            </p>
-          </div> 
         </div>
-      </div>
-      <h2 class="fw-800">{{topic.search_title_highlight|safe}}</h2>
-      <div class="text-dark fs-11 overflow-auto">
-        {{ topic.search_content_highlight|safe }}
-      </div>
-      <div class="row">
-        <div class="col">
-          <a href="javascript:;" class="btn btn-sm btn-white border-0"><i class="bi bi-chat-right-text"></i>&nbsp;&nbsp;&nbsp;{{post.comments.count}}</a>&nbsp;&nbsp;
-          <a href="javascript:;" class="btn btn-sm btn-white border-0"><i class="bi bi-bookmark"></i>&nbsp;&nbsp;&nbsp;{{pinned_count}}</a>
+        <h2 class="fw-800">
+          <a href="{% url 'topic' topic.community.slug topic.pk %}">
+            {{topic.search_title_highlight|safe}}
+          </a>
+        </h2>
+        <div class="text-dark fs-11 overflow-auto">
+          {{ topic.search_content_highlight|safe }}
+        </div>
+        <div class="row">
+          <div class="col">
+            <a href="javascript:;" class="btn btn-sm btn-white border-0"><i class="bi bi-chat-right-text"></i>&nbsp;&nbsp;&nbsp;{{topic.comments.count}}</a>&nbsp;&nbsp;
+            <a href="javascript:;" class="btn btn-sm btn-white border-0"><i class="bi bi-bookmark"></i>&nbsp;&nbsp;&nbsp;{{pinned_count}}</a>
+          </div>
         </div>
       </div>
     </div>
+  {% endfor %}
   </div>
 </div>
-{% endfor %}
+{% endif %}
 {% endblock content %}

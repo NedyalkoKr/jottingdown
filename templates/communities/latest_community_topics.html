@@ -1,11 +1,16 @@
 {% extends '../base.html' %}
 {% load static humanize %}
-{% block title %}Community - {{ community|capfirst }}{% endblock %}
+{% block title %}Community - {{ community|capfirst }} latest topics{% endblock %}
 {% block content %}
 <div class="header mt-4">
   <div class="container-fluid">
     <div class="header-body pb-2">
       <div class="row">
+        <div class="col-auto">
+          <a href="{% url 'community' community.slug %}">
+            <i class="bi bi-arrow-left-circle la-2x text-dark"></i>
+          </a>
+        </div>
         <div class="col">
           <h1 class="header-title fs-13">
             <a href="{% url 'community' community.slug %}">{{ community|capfirst }}</a>
@@ -64,6 +69,7 @@
     <button class="btn btn-outline-secondary" type="submit">Search</button>
   </div>
 </form>
+{% if search_count > 0 %}
 <div class="card shadow-none">
   <div class="card-header">
     <h4 class="card-header-title">
@@ -96,4 +102,5 @@
     </div>
   </div>
 </div>
+{% endif %}
 {% endblock content %}
