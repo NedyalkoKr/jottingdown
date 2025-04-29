@@ -1,15 +1,19 @@
 import re
 from urllib.parse import urlencode
+from django.template.loader import render_to_string
 from difflib import SequenceMatcher
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.db.models import Func, F, Q, Value, CharField, FloatField, Count, TextField, Max, Sum
 from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank, SearchHeadline, TrigramSimilarity, TrigramWordSimilarity
 from core.models import Community
 from topics.models import Topic
 from search.models import SearchHistory, SavedSearch
+from .forms import NewSavedSearchFromKeywordModelForm, NewSavedSearchModelForm
+
 
 STOP_WORDS = {
   "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "has", "he",
@@ -245,7 +249,7 @@ class SearchesView(LoginRequiredMixin, ListView):
 class NewSavedSearchView(LoginRequiredMixin, CreateView):
 
   model = SavedSearch
-  # form_class = NewSavedSearchModelForm
+  form_class = NewSavedSearchModelForm
   http_method_names = ["get", "post",]
   # permission_required = ('accounts.full_access_to_entire_platform',)
   template_name = "search/search_posts.html"
@@ -264,7 +268,7 @@ class NewSavedSearchView(LoginRequiredMixin, CreateView):
 
   def get_success_url(self, **kwargs):
     query = self.kwargs['search_query']
-    url = reverse('search_posts', kwargs={'username': self.request.user})
+    url = reverse('search_user_topics',)
     query_params = {'q': query}
     return f"{url}?{urlencode(query_params)}"
 
@@ -346,3 +350,65 @@ class SearchUserTopicsView(LoginRequiredMixin, ListView):
     context["search_query"] = query
     context['search_count'] = self.get_queryset().count()
     return context
+
+
+class NewSavedSearchFromKeywordView(LoginRequiredMixin, CreateView):
+
+  model = SavedSearch
+  form_class = NewSavedSearchFromKeywordModelForm
+  http_method_names = ["get", "post",]
+  # permission_required = ('accounts.full_access_to_entire_platform',)
+  template_name = 'search/new_search_keyword.html'
+
+  def form_valid(self, form):
+    instance = form.save(commit=False)
+    name = form.cleaned_data['name']
+    form.instance.user = self.request.user
+    form.instance.name = name
+    form.save()
+
+    if self.request.headers.get('HX-Request'):
+      return HttpResponse(render_to_string('search/partials/saved_search_form.html', {'form': self.form_class()}))
+    else:
+      return HttpResponseRedirect(self.get_success_url())
+
+  def get_success_url(self, **kwargs):
+    return reverse_lazy('user_topics', kwargs={'username': self.request.user})
+
+
+class SavedSearchesView(LoginRequiredMixin, ListView):
+
+  http_method_names = ['get']
+  context_object_name = "searches"
+  template_name = "search/saved_searches.html"
+
+  def get_queryset(self):
+    searches = SavedSearch.objects.prefetch_related('user').filter(user=self.request.user)
+    return searches
+
+
+class DeleteSavedSearchView(LoginRequiredMixin, DeleteView):
+
+  context_object_name = 'saved_search'
+  http_method_names = ["post", "delete",]
+  # permission_required = ('accounts.full_access_to_entire_platform',)
+
+  def get_object(self, queryset=None):
+    slug = self.kwargs.get('slug')
+    saved_search = SavedSearch.objects.get(slug=slug, user=self.request.user)
+    return saved_search
+
+  def delete(self, request, *args, **kwargs):
+    self.object = self.get_object()
+    self.object.delete()
+
+    if request.headers.get('HX-Request'):
+      searches = SavedSearch.objects.filter(user=request.user)
+      html = render_to_string(
+        'search/partials/_saved_searches.html', {'searches': searches,}
+      )
+      return HttpResponse(html)
+    return HttpResponseRedirect(self.get_success_url())
+
+  def get_success_url(self, **kwargs):
+    return reverse_lazy('saved_searches', kwargs={'username': self.request.user})

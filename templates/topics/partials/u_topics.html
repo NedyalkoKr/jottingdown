@@ -4,13 +4,13 @@
   <div id="topic-{{ topic.slug }}" class="card shadow-none mt-0 mb-0 border-bottom-0 rounded-0 px-3 py-2">
     <div class="card-body pt-0">
       <div class="card-header mb-2 border-0 px-0">
-        <h3 class="me-auto header-title fw-800 mt-3 fs-11">
-          {{topic.title}}
-        </h3>
+        <h2 class="me-auto header-title fw-800 mt-3 fs-12">
+          {{topic.title|capfirst}}
+        </h2>
         <div class="dropdown">
           <a href="javascript:;" class="dropdown-ellipses dropdown-toggle show" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="las la-ellipsis-h la-lg text-dark"></i></a>
           <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item text-dark" data-bs-toggle="collapse" href="#collapsetopic-{{topic.slug}}" >Add query</a>
+            <a class="dropdown-item text-dark" data-bs-toggle="collapse" href="#collapsetopic-{{topic.slug}}">Add query</a>
             <a href="{% url 'update_topic' topic.slug %}" class="dropdown-item text-dark">Edit</a>
             <form method="post" 
               action="{% url 'delete_topic' user.username topic.slug %}" 
@@ -25,6 +25,9 @@
       </div>
       <div class="fs-11 overflow-auto">
         {{ topic.content|safe }}
+      </div>
+      <div class="collapse mt-4" id="collapsetopic-{{topic.slug}}">
+        {% include 'search/partials/saved_search_form.html' %}
       </div>
       <div class="mb-0 mt-4">
         <div class="row">

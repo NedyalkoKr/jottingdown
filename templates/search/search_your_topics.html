@@ -7,13 +7,13 @@
       <div class="row align-items-end">
         <div class="col-auto">
         {% if user.avatar %}
-          <a href="javascript:void(0)" class="avatar avatar-sm">
-            <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
-          </a>
-          {% else %}
-          <div class="avatar avatar-sm">
-            <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
-          </div>
+        <a href="javascript:void(0)" class="avatar avatar-sm">
+          <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+        </a>
+        {% else %}
+        <div class="avatar avatar-sm">
+          <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+        </div>
         {% endif %}
         </div>
         <div class="col mb-3 ms-n3 ms-md-n2">
@@ -25,7 +25,7 @@
           </h1>
         </div>
       </div>
-      <div class="row align-items-center">
+      <div class="row align-items-center mt-4">
         <div class="col">
           <ul class="nav nav-tabs nav-overflow header-tabs">
             <li class="nav-item">
@@ -39,7 +39,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="profile-projects.html" class="nav-link">
+              <a href="{% url 'saved_searches' %}" class="nav-link">
                 Saved 
               </a>
             </li>
@@ -59,12 +59,19 @@
     </div>
   </div>
 </div>
-<form action="{% url 'search_user_topics' user.username %}" method="get" class="mt-4">
+<form action="{% url 'search_user_topics' %}" method="get" class="mt-4">
   <div class="input-group mb-3">
     <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search your topics" class="form-control" autocomplete="off">
     <button class="btn btn-outline-secondary" type="submit">Search</button>
   </div>
 </form>
+{% if search_count > 0 %}
+<div class="mb-4">
+  <form method="post" action="{% url 'new_saved_search' search_query %}">{% csrf_token %}
+    <button type="submit" class="btn btn-primary w-100">Save</button>
+  </form>
+</div>
+{% endif %}
 <div id="topics">
   {% for topic in topics %}
   <div id="topic-{{ topic.slug }}" class="card shadow-none mt-0 mb-0 border-bottom-0 rounded-0 px-3 py-2">

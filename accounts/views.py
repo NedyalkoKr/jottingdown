@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMi
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordChangeView, PasswordChangeDoneView, PasswordResetCompleteView
 from topics.models import Topic
 from core.models import Community
+from search.forms import NewSavedSearchFromKeywordModelForm
 from .forms import UserProfileSettingsChangeForm, UserPasswordChangeForm, UserLoginForm
 User = get_user_model()
 
@@ -50,6 +51,11 @@ class UserTopicsView(LoginRequiredMixin, ListView):
   def get_queryset(self):
     topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
     return topics
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['form'] = NewSavedSearchFromKeywordModelForm()
+    return context
 
 
 class UserCommunitiesView(LoginRequiredMixin, ListView):
