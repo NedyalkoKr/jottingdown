@@ -78,3 +78,16 @@ class TopicDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
       return render(request, 'topics/partials/u_topics.html', {'topics': topics})
     else:
       return HttpResponseRedirect(self.get_success_url())
+
+
+class TopicsForYouBasedOnCommunitiesYouFollowView(LoginRequiredMixin, ListView):
+
+  http_method_names = ['get',]
+  context_object_name = 'topics'
+  template_name = "topics/topics_for_you_based_on_communities_you_follow.html"
+
+  def get_queryset(self):
+    user = self.request.user
+    user_following_communities = user.following_communities.all()
+    topics = Topic.objects.prefetch_related('community').prefetch_related('user').filter(community__in=user_following_communities).order_by('-created')
+    return topics

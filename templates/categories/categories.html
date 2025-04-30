@@ -6,14 +6,14 @@
   <div class="col-12">
     {% for category in categories %}
     <h2 class="mb-3">
-      <a href="" class="border-bottom fw-800">
+      <a href="{% url 'category' category.slug %}" class="border-bottom fw-800">
         {{ category.name|capfirst }}
       </a>
     </h2>
     <p class="text-dark px-2">
       {{ category.description }}
     </p>
-    <div class="card shadow-none" data-list="{&quot;valueNames&quot;: [&quot;orders-order&quot;, &quot;orders-product&quot;, &quot;orders-date&quot;, &quot;orders-total&quot;, &quot;orders-status&quot;, &quot;orders-method&quot;]}">
+    <div class="card shadow-none" data-list='{"valueNames": ["orders-order", "orders-product", "orders-date", "orders-total", "orders-status", "orders-method"]}'>
       <div class="card-header">
         <form>
           <div class="input-group input-group-flush input-group-merge input-group-reverse">
@@ -38,7 +38,7 @@
               </th>
               <th width="50">
                 <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">
-                  Opinions
+                  Replies
                 </a>
               </th>
               <th width="50">
@@ -47,26 +47,42 @@
                 </a>
               </th>
               <th width="50"></th>
-            </tr> 
+            </tr>
           </thead>
           <tbody class="list">
             {% for community in category.communities.all %}
             <tr>
               <td class="orders-order" colspan="5">
-                <a href="{% url 'community' community.slug %}" class="fs-1 text-dark">{{community|capfirst}}</a>
+                <a href="{% url 'community' community.slug %}" class="fs-1 text-dark fw-800">{{ community.name|capfirst }}</a>
               </td>
               <td class="orders-product" width="50">
-                {{ community.topic_set.all|length }}
+                {{ community.topic_set.count }}
               </td>
               <td class="orders-product" width="50">
-                {{ community.answers.all|length }}
+                {{ community.answers.count }}
               </td>
               <td class="orders-product" width="50">
                 {{ community.followed_communities.count }}
               </td>
               <td class="orders-product" width="50">
-                {% include 'communities/partials/_follow_button.html' with community=community user=user %}
-            </td>
+                {% if community in followed_communities %}
+                  <form method="post" 
+                        hx-post="{% url 'unfollow_community' community.slug %}" 
+                        hx-target="this" 
+                        hx-swap="outerHTML">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+                  </form>
+                {% else %}
+                  <form method="post" 
+                        hx-post="{% url 'follow_community' community.slug %}" 
+                        hx-target="this" 
+                        hx-swap="outerHTML">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+                  </form>
+                {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>

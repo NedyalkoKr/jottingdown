@@ -15,9 +15,16 @@ class CategoriesView(LoginRequiredMixin, ListView):
   template_name = 'categories/categories.html'
 
   def get_queryset(self):
-    categories = Category.objects.prefetch_related('communities').prefetch_related('communities__topic_set').prefetch_related('communities__followed_communities').prefetch_related('communities')
-    return categories
+    return Category.objects.prefetch_related(
+      'communities__topic_set',
+      'communities__followed_communities'
+    ).distinct()
 
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['followed_communities'] = self.request.user.following_communities.all()
+    return context
+  
 
 class CommunityView(LoginRequiredMixin, DetailView):
 
@@ -64,3 +71,21 @@ class TopicDetailView(LoginRequiredMixin, DetailView):
       TopicView.objects.create(topic=topic, user=self.request.user)
       Topic.objects.filter(pk=topic.pk).update(views=F('views') + 1)
     return topic
+
+
+class CategoryView(LoginRequiredMixin, DetailView):
+  
+  http_method_names = ["get",]
+  context_object_name = 'category'
+  template_name = 'categories/category.html'
+
+  def get_object(self):
+    category = Category.objects.get(slug=self.kwargs['slug'])
+    return category
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    communities = Community.objects.filter(category=self.object)
+    context['communities'] = communities
+    context['topics'] = Topic.objects.prefetch_related('user').prefetch_related('community').filter(community__in=communities).exclude(user=self.request.user)
+    return context

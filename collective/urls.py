@@ -26,6 +26,7 @@ urlpatterns = [
     path(route='topics/', view=include('topics.urls.topics_urls')),
     path(route='communities/', view=include('core.urls.communities_urls')),
     path(route='community/', view=include('core.urls.community_urls')),
+    path(route='category/', view=include('core.urls.category_urls')),
     path(route='follow/', view=include('follow.urls.follow_urls')),
     path(route='unfollow/', view=include('follow.urls.unfollow_urls')),
     path(route='search/', view=include('search.urls.search_urls')),

@@ -1,17 +1,17 @@
 {% if community in user.following_communities.all %}
 <form method="post" 
-      hx-post="{% url 'unfollow_community' community.slug %}" 
-      hx-target="this" 
-      hx-swap="outerHTML">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+    hx-post="{% url 'unfollow_community' community.slug %}" 
+    hx-target="this" 
+    hx-swap="outerHTML">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
 </form>
 {% else %}
 <form method="post" 
-      hx-post="{% url 'follow_community' community.slug %}" 
-      hx-target="this" 
-      hx-swap="outerHTML">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+    hx-post="{% url 'follow_community' community.slug %}" 
+    hx-target="this" 
+    hx-swap="outerHTML">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
 </form>
 {% endif %}
