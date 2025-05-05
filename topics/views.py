@@ -80,6 +80,19 @@ class TopicDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
       return HttpResponseRedirect(self.get_success_url())
 
 
+class PostsForYouBasedOnCommunitiesYouFollowView(LoginRequiredMixin, ListView):
+
+  http_method_names = ['get',]
+  context_object_name = 'topics'
+  template_name = "topics/posts_for_you_based_on_communities_you_follow.html"
+
+  def get_queryset(self):
+    user = self.request.user
+    user_following_communities = user.following_communities.all()
+    topics = Topic.objects.prefetch_related('community').prefetch_related('user').filter(community__in=user_following_communities).order_by('-created').exclude(user=self.request.user)
+    return topics
+
+
 class TopicsForYouBasedOnCommunitiesYouFollowView(LoginRequiredMixin, ListView):
 
   http_method_names = ['get',]
@@ -89,5 +102,5 @@ class TopicsForYouBasedOnCommunitiesYouFollowView(LoginRequiredMixin, ListView):
   def get_queryset(self):
     user = self.request.user
     user_following_communities = user.following_communities.all()
-    topics = Topic.objects.prefetch_related('community').prefetch_related('user').filter(community__in=user_following_communities).order_by('-created')
+    topics = Topic.objects.prefetch_related('community').prefetch_related('user').filter(community__in=user_following_communities).order_by('-created').exclude(user=self.request.user)
     return topics

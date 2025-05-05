@@ -26,7 +26,20 @@ class CustomUser(AbstractUser):
   })
   slug = AutoSlugField(populate_from='username', null=True, editable=False)
   date_joined = models.DateTimeField(auto_now_add=True, verbose_name='date joined', editable=False)
-  followers = models.ManyToManyField(to="self", symmetrical=False, blank=True)
+  # Users who follow this user
+  followers = models.ManyToManyField(
+    to="self",
+    symmetrical=False,
+    related_name="follows",  # Reverse: users this user is followed by
+    blank=True
+  )
+  # Users this user follows
+  following = models.ManyToManyField(
+    to="self",
+    symmetrical=False,
+    related_name="followed_by",  # Reverse: users who follow this user
+    blank=True
+  )
   following_communities = models.ManyToManyField(to=Community, related_name='followed_communities', blank=True)
   avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
   bio = models.TextField(max_length=500, blank=True, default='')

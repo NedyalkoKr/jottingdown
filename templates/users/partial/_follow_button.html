@@ -1,0 +1,17 @@
+{% if user_to_follow in user.following.all %}
+<form method="post" 
+      hx-post="{% url 'unfollow_user' user_to_follow.slug %}" 
+      hx-target="closest tr" 
+      hx-swap="outerHTML">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+</form>
+{% else %}
+<form method="post" 
+      hx-post="{% url 'follow_user' user_to_follow.slug %}" 
+      hx-target="closest tr" 
+      hx-swap="outerHTML">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+</form>
+{% endif %}

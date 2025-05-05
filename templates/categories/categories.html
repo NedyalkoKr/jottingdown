@@ -2,11 +2,38 @@
 {% load humanize %}
 {% block title %}Categories{% endblock %}
 {% block content %}
-<div class="row mt-7">
+<div class="header">
+  <div class="container-fluid">
+    <div class="header-body pb-3">
+      <div class="row align-items-end">
+        <div class="col">
+          <h1 class="header-title fs-12">
+           Categories
+          </h1>
+        </div>
+        <div class="col-auto">
+          <a class="btn btn-primary btn-white text-dark rounded-5" data-bs-toggle="collapse" href="#filterCategories">
+            <i class="bi bi-funnel"></i>&nbsp;&nbsp;Filter
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="collapse" id="filterCategories">
+  <ul class="list-group">
+    {% for category in categories %}
+    <li class="list-group-item py-2">
+      <a href="#category-{{ category.slug }}">{{ category.name|capfirst }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="row mt-4">
   <div class="col-12">
     {% for category in categories %}
     <h2 class="mb-3">
-      <a href="{% url 'category' category.slug %}" class="border-bottom fw-800">
+      <a id="category-{{ category.slug }}" href="{% url 'category' category.slug %}" class="border-bottom fw-800">
         {{ category.name|capfirst }}
       </a>
     </h2>
@@ -53,7 +80,7 @@
             {% for community in category.communities.all %}
             <tr>
               <td class="orders-order" colspan="5">
-                <a href="{% url 'community' community.slug %}" class="fs-1 text-dark fw-800">{{ community.name|capfirst }}</a>
+                <a href="{% url 'community' community.slug %}" class="fs-1 text-dark fw-bold">{{ community.name|capfirst }}</a>
               </td>
               <td class="orders-product" width="50">
                 {{ community.topic_set.count }}
@@ -66,21 +93,21 @@
               </td>
               <td class="orders-product" width="50">
                 {% if community in followed_communities %}
-                  <form method="post" 
-                        hx-post="{% url 'unfollow_community' community.slug %}" 
-                        hx-target="this" 
-                        hx-swap="outerHTML">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
-                  </form>
+                <form method="post" 
+                  hx-post="{% url 'unfollow_community' community.slug %}" 
+                  hx-target="this" 
+                  hx-swap="outerHTML">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+                </form>
                 {% else %}
-                  <form method="post" 
-                        hx-post="{% url 'follow_community' community.slug %}" 
-                        hx-target="this" 
-                        hx-swap="outerHTML">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
-                  </form>
+                <form method="post" 
+                  hx-post="{% url 'follow_community' community.slug %}" 
+                  hx-target="this" 
+                  hx-swap="outerHTML">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
+                </form>
                 {% endif %}
               </td>
             </tr>

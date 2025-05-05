@@ -1,5 +1,4 @@
-{% extends '../base.html' %}
-{% load humanize %}
+{% extends '../../base.html' %}
 {% block content %}
 <div class="header mt-6">
   <div class="container-fluid">
@@ -29,23 +28,18 @@
         <div class="col">
           <ul class="nav nav-tabs nav-overflow header-tabs">
             <li class="nav-item">
-              <a href="{% url 'user_topics' user.username %}" class="nav-link active">
+              <a href="{% url 'user_topics' user.username %}" class="nav-link">
                 Communities
               </a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'following_users' user.username %}" class="nav-link">
+              <a href="{% url 'following_users' user.username %}" class="nav-link active">
                 People
               </a>
             </li>
             <li class="nav-item">
               <a href="" class="nav-link">
                 Posts
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'saved_searches' %} {% if request.path == saved_searches_url %}active fw-800{% endif %}" class="nav-link">
-                Saved
               </a>
             </li>
           </ul>
@@ -65,32 +59,45 @@
     <div class="card card-fill shadow-none">
       <div class="card-body">
         <div class="list-group list-group-flush my-n3">
-          {% for community in user.following_communities.all %}
+          {% for user in following_users %}
           <div class="list-group-item">
             <div class="row align-items-center">
-              <!-- <div class="col-auto"></div> -->
+              <div class="col-auto">
+                {% if user.avatar %}
+                  <a href="javascript:void(0)" class="avatar avatar-xs">
+                    <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+                  </a>
+                  {% else %}
+                  <div class="avatar avatar-xs">
+                    <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+                  </div>
+                {% endif %}
+              </div>
               <div class="col ms-n2">
                 <h2 class="mb-1 fs-11">
-                  <a href="{% url 'community' community.slug %}">{{community|capfirst}}</a>
+                  <a href="">{{user}}</a>
                 </h2>
-                <ul class="list-group list-group-horizontal mt-2">
-                  <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.topic_set.all|length}} topics</li>
-                  <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
-                </ul>
+                <!-- <ul class="list-inline mb-0 px-2">
+                  <li class="list-inline-item">
+                    <a href="" class="fs-08">
+                     latest
+                    </a>
+                  </li>
+                </ul> -->
               </div>
               <div class="col-auto">
-                {% if user.following_communities %}
+                {% if user in following_users %}
                 <form method="post" 
-                  hx-post="{% url 'unfollow_community' community.slug %}" 
-                  hx-target="this" 
+                  hx-post="{% url 'unfollow_user' user.slug %}" 
+                  hx-target="closest tr" 
                   hx-swap="outerHTML">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
                 </form>
                 {% else %}
                 <form method="post" 
-                  hx-post="{% url 'follow_community' community.slug %}" 
-                  hx-target="this" 
+                  hx-post="{% url 'follow_user' user.slug %}" 
+                  hx-target="closest tr" 
                   hx-swap="outerHTML">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>

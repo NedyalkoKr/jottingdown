@@ -412,3 +412,10 @@ class DeleteSavedSearchView(LoginRequiredMixin, DeleteView):
 
   def get_success_url(self, **kwargs):
     return reverse_lazy('saved_searches', kwargs={'username': self.request.user})
+
+
+class SearchCategoryTopicsView(LoginRequiredMixin, ListView):
+
+  http_method_names = ['get']
+  context_object_name = "topics"
+  template_name = "search/search_category_topics.html"

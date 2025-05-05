@@ -77,11 +77,11 @@
       <div class="list-group-item px-2 py-4">
         <div class="row align-items-center">
           <div class="col">
-            <h1 class="mb-0 fs-11">
-              <a href="{% url 'topic' topic.community.slug topic.pk %}" class="">{{topic}}</a>
+            <h1 class="mb-0 fs-12">
+              <a href="{% url 'topic' topic.community.slug topic.pk %}" class="">{{topic|capfirst}}</a>
             </h1>
             <ul class="list-group list-group-horizontal mt-2">
-              <li class="list-group-item p-0 px-2 border-0 fs-08">author {{topic.user}}</li>
+              <li class="list-group-item p-0 px-2 border-0 fs-08">{{topic.user}}</li>
               <li class="list-group-item p-0 px-2 border-0 fs-08">{{topic.created|naturaltime}}</li>
             </ul>
           </div>

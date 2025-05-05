@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}People{% endblock %}
+{% block content %}
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="card shadow-none" data-list='{"valueNames": ["orders-order", "orders-product", "orders-total", "orders-status"]}'>
+      <div class="card-header">
+        <form>
+          <div class="input-group input-group-flush input-group-merge input-group-reverse">
+            <input class="form-control list-search" type="search" placeholder="Search">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-sm table-nowrap card-table">
+          <thead>
+            <tr>
+              <th colspan="5">Users</th>
+              <th width="50">
+                <a href="#" class="text-body-secondary list-sort" data-sort="orders-total">Topics</a>
+              </th>
+              <th width="50">
+                <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">Replies</a>
+              </th>
+              <th width="50">
+                <a href="#" class="text-body-secondary list-sort" data-sort="orders-status">Followers</a>
+              </th>
+              <th width="50">Subscriber</th>
+              <th width="50"></th>
+            </tr>
+          </thead>
+          <tbody class="list">
+            {% for user_to_follow in users_to_follow %}
+            <tr>
+              <td class="orders-order" colspan="5">
+                {% if user_to_follow.avatar %}
+                <a href="" class="avatar avatar-sm text-dark">
+                  <img src="{{ user_to_follow.avatar.url }}" alt="..." class="avatar-img rounded-circle">
+                  <span class="fs-09">{{ user_to_follow.username }}</span>
+                </a>
+                {% else %}
+                <a href="" class="avatar avatar-sm text-dark">
+                  <div class="avatar avatar-sm text-dark">
+                    <span class="avatar-title rounded-circle">{{ user_to_follow.username|slice:":2" }}</span>
+                  </div>
+                  <span class="fs-09">{{ user_to_follow.username }}</span>
+                </a>
+                {% endif %}
+              </td>
+              <td class="orders-product" width="50">
+                {{ user_to_follow.topic_set.count }}
+              </td>
+              <td class="orders-product" width="50">
+                {{ user_to_follow.answer_set.count|default:0 }}
+              </td>
+              <td class="orders-product" width="50">
+                {{ user_to_follow.follows.count }}
+              </td>
+              <td class="orders-product" width="50">
+                Yes<br>verified
+              </td>
+              <td class="orders-product" width="50">
+                {% if request.user.is_authenticated and request.user != user_to_follow %}
+                {% include 'users/partial/_follow_button.html' with user_to_follow=user_to_follow user=request.user %}
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

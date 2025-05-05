@@ -1,0 +1,34 @@
+<tr>
+  <td class="orders-order" colspan="5">
+    {% if user_to_follow.avatar %}
+    <a href="" class="avatar avatar-sm text-dark">
+      <img src="{{ user_to_follow.avatar.url }}" alt="..." class="avatar-img rounded-circle">
+      <span class="fs-09">{{ user_to_follow.username }}</span>
+    </a>
+    {% else %}
+    <a href="" class="avatar avatar-sm text-dark">
+      <div class="avatar avatar-sm text-dark">
+        <span class="avatar-title rounded-circle">{{ user_to_follow.username|slice:":2" }}</span>
+      </div>
+      <span class="fs-09">{{ user_to_follow.username }}</span>
+    </a>
+    {% endif %}
+  </td>
+  <td class="orders-product" width="50">
+    {{ user_to_follow.topic_set.count }}
+  </td>
+  <td class="orders-product" width="50">
+    {{ user_to_follow.answer_set.count|default:0 }}
+  </td>
+  <td class="orders-product" width="50">
+    {{ user_to_follow.followers.count }}
+  </td>
+  <td class="orders-product" width="50">
+    Yes<br>verified
+  </td>
+  <td class="orders-product" width="50">
+    {% if user.is_authenticated and user != user_to_follow %}
+    {% include 'users/partial/_follow_button.html' with user_to_follow=user_to_follow user=user %}
+    {% endif %}
+  </td>
+</tr>

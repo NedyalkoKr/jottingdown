@@ -5,10 +5,13 @@
 {% url 'user_communities' user.username as user_communities_url %}
 {% url 'search_all_topics' as search_all_topics_url %}
 {% url 'searches' as searches_url %}
-{% url 'saved_searches' user.username as saved_searches_url %}
+{% url 'saved_searches' as saved_searches_url %}
 {% url 'community' community.slug as community_url %}
-{% url 'search_user_topics' user.username as search_user_topics_url %}
-
+{% url 'search_user_topics' as search_user_topics_url %}
+{% url 'posts_foryou_based_on_communities_you_follow' as posts_foryou_based_on_communities_you_follow_url %}
+{% url 'topics_foryou_based_on_communities_you_follow' as topics_foryou_based_on_communities_you_follow_url %}
+{% url 'follow_people' as follow_people_url %}
+{% url 'posts_from_community_you_follow' community.slug as posts_from_community_you_follow_url %}
 
 <nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
   <div class="container-fluid">
@@ -41,12 +44,12 @@
       </form>
       <ul class="navbar-nav mb-md-4">
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == posts_foryou_based_on_communities_you_follow_url or request.path == topics_foryou_based_on_communities_you_follow_url or request.path == posts_from_community_you_follow_url %}active fw-800{% endif %}" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">
             For You
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="">
+          <a class="nav-link text-dark fs-12 {% if request.path == follow_people_url %}active fw-800{% endif %}" href="{% url 'follow_people' %}">
             People
           </a>
         </li>
@@ -73,6 +76,16 @@
         <li class="nav-item">
           <a class="nav-link text-dark fs-12" href="./docs/changelog.html">
             Notifications
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="">
+            Bookmarks
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fs-12" href="">
+            History
           </a>
         </li>
         <li class="nav-item">

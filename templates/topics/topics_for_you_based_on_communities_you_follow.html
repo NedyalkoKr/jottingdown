@@ -1,4 +1,53 @@
 {% extends 'base.html' %}
+{% load humanize %}
+{% block title %}For you{% endblock %}
 {% block content %}
-
+<nav class="navbar navbar-expand-xl mt-4 mb-4 border rounded-2 px-4">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'communities_you_follow' %}">Communities</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#!">Following</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#!">Keywords</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="card shadow-none">
+  <div class="card-body">
+    <div class="list-group list-group-flush my-n3">
+      {% for topic in topics %}
+      <div class="list-group-item">
+        <div class="row align-items-center">
+          <div class="col ms-n0 px-3">
+            <h4 class="mb-1 fs-11 fw-bold">
+              <a href="{% url 'topic' topic.community.slug topic.pk %}">{{ topic.title|capfirst }}</a>
+            </h4>
+            <p class="card-text small text-body-secondary px-2">
+              <time datetime="{{topic.created|date:'Y-m-d H:i'}}">{{ topic.created|naturaltime }}</time>
+            </p>
+          </div>
+          <div class="col-auto">2500 <br> replies</div>
+          <div class="col-auto">563 <br> views</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}

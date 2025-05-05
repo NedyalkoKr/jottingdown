@@ -38,6 +38,11 @@
     <div class="list-group list-group-flush my-n3">
       {% for topic in topics %}
       <div class="list-group-item">
+        <h2 class="fs-12 fw-800">
+          <a href="{% url 'topic' topic.community.slug topic.pk %}">
+            {{topic.search_title_highlight|safe}}
+          </a>
+        </h2>
         <div class="row align-items-center">
           <div class="col-auto">
             {% if topic.user.avatar %}
@@ -53,13 +58,14 @@
           <div class="col ms-n2">
             <h4 class="mb-1"><i class="bi bi-person"></i>&nbsp;&nbsp;{{topic.user.username}}&nbsp;&nbsp;&nbsp;</h4>
             <p class="card-text small text-body-secondary">
-              <time datetime="{{topic.created}}">{{topic.created|naturaltime}}</time>
+              <time datetime="{{topic.created|date:'Y-m-d H:i'}}">{{topic.created|naturaltime}}</time>
             </p>
           </div>
         </div>
         <div class="card-body">
-          <h2 class="fs-12 fw-800">{{topic.search_title_highlight|safe}}</h2>
-          <p class="text fs-11">{{topic.search_content_highlight|safe}}</p>
+          <div class="fs-12 fw-bold">
+            {{topic.search_content_highlight|safe}}
+          </div>
         </div>
       </div>
       {% endfor %}

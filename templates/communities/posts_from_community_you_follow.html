@@ -1,0 +1,71 @@
+{% extends '../base.html' %}
+{% load humanize %}
+{% block content %}
+<nav class="navbar navbar-expand-xl mt-4 mb-4 border rounded-2 px-4">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">{{community|capfirst}}</li>
+      </ul>
+    </div>
+  </div>
+  <div><a href="{% url 'communities_you_follow' %}"><i class="bi bi-x la-lg"></i></a></div>
+</nav>
+<div class="card shadow-none">
+  {% for post in posts %}
+  <div class="card-body border-bottom">
+    <div class="mb-4">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          {% if post.user.avatar %}
+          <a href="javascript:void(0)" class="avatar avatar-xs">
+            <img src="{{post.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+          </a>
+          {% else %}
+          <div class="avatar avatar-xs">
+            <span class="avatar-title rounded-circle">{{post.user.username|slice:":2"}}</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="col ms-n2">
+          <h4 class="mb-1">
+            {{ post.user.username }}
+          </h4>
+          <p class="card-text small text-body-secondary">
+            <time datetime="{{post.created|date:'Y-m-d H:i'}}">{{ post.created|naturaltime }}</time>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="fs-11 overflow-auto mb-4 px-3">
+      {{ post.content|safe }}
+    </div>
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+
+          <!-- Reaction -->
+          <a href="#!" class="btn btn-sm btn-white">
+            😬 1
+          </a>
+          <a href="#!" class="btn btn-sm btn-white">
+            👍 2
+          </a>
+          <a href="#!" class="btn btn-sm btn-white">
+            Add Reaction
+          </a>
+        </div>
+        <div class="col-auto">
+          <a href="#!" class="btn btn-sm btn-white">
+            Share
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

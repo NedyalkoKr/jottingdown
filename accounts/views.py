@@ -45,17 +45,23 @@ class UserLogoutView(LogoutView):
 class UserTopicsView(LoginRequiredMixin, ListView):
 
   context_object_name = 'topics'
-  http_method_names = ["get", "post",]
+  http_method_names = ["get",]
   template_name = 'topics/user_topics.html'
 
   def get_queryset(self):
     topics = Topic.objects.prefetch_related('community').filter(user=self.request.user).order_by('-created')
     return topics
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context['form'] = NewSavedSearchFromKeywordModelForm()
-    return context
+
+class FollowingUsersView(LoginRequiredMixin, ListView):
+  
+  http_method_names = ["get",]
+  context_object_name = 'following_users'
+  template_name = 'users/profile/following_users.html'
+  
+  def get_queryset(self):
+    following_users = self.request.user.following.all()
+    return following_users
 
 
 class UserCommunitiesView(LoginRequiredMixin, ListView):

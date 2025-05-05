@@ -5,7 +5,7 @@
     <div class="header-body mt-n5 mt-md-n6">
       <div class="row align-items-end">
         <div class="col-auto">
-        {% if user.avatar %}
+          {% if user.avatar %}
           <a href="javascript:void(0)" class="avatar avatar-sm">
             <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
           </a>
@@ -13,7 +13,7 @@
           <div class="avatar avatar-sm">
             <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
           </div>
-        {% endif %}
+          {% endif %}
         </div>
         <div class="col mb-3 ms-n3 ms-md-n2">
           <h6 class="header-pretitle">
@@ -26,38 +26,40 @@
       </div>
       <div class="row align-items-center">
         <div class="col">
-          <ul class="nav nav-tabs nav-overflow header-tabs">
+          <ul class="nav nav-tabs nav-overflow header-tabs border-bottom">
             <li class="nav-item">
               <a href="{% url 'user_topics' user.username %}" class="nav-link">
-                Topics
+                Communities
               </a>
             </li>
             <li class="nav-item">
-              <a href="profile-groups.html" class="nav-link">
-                Bookmarks
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'saved_searches' %}" class="nav-link active">
-                Saved 
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="{% url 'user_topics' user.username %}" class="nav-link">
                 People
               </a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'user_communities' user.username %}" class="nav-link">
-                Communities
+              <a href="" class="nav-link">
+                Posts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'saved_searches' %} {% if request.path == saved_searches_url %}active fw-800{% endif %}" class="nav-link active">
+                Saved
               </a>
             </li>
           </ul>
         </div>
-      </div>
+      </div> 
     </div>
   </div>
 </div>
+<form action="{% url 'search_user_topics' %}" method="get" class="mt-4">
+  <div class="input-group mb-3">
+    <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search your topics" class="form-control" autocomplete="off">
+    <button class="btn btn-outline-secondary" type="submit">Search</button>
+  </div>
+</form>
+{% if searches.count > 0 %}
 <div class="row">
   <div class="col-12 col-xl-12">
     <div class="card card-fill shadow-none">
@@ -72,4 +74,5 @@
     </div>
   </div>
 </div>
+{% endif %}
 {% endblock content %}

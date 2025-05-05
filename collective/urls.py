@@ -24,6 +24,7 @@ urlpatterns = [
     path(route='settings/', view=include('accounts.urls.settings_urls')),
     path(route='topic/', view=include('topics.urls.topic_urls')),
     path(route='topics/', view=include('topics.urls.topics_urls')),
+    path(route='posts/', view=include('topics.urls.posts_urls')),
     path(route='communities/', view=include('core.urls.communities_urls')),
     path(route='community/', view=include('core.urls.community_urls')),
     path(route='category/', view=include('core.urls.category_urls')),

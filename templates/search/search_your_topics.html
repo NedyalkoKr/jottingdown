@@ -3,7 +3,7 @@
 {% block content %}
 <div class="header mt-6">
   <div class="container-fluid">
-    <div class="header-body mt-n5 mt-md-n6">
+    <div class="header-body mt-n5 mt-md-n6 border-bottom-0">
       <div class="row align-items-end">
         <div class="col-auto">
         {% if user.avatar %}
@@ -25,37 +25,32 @@
           </h1>
         </div>
       </div>
-      <div class="row align-items-center mt-4">
+      <div class="row align-items-center">
         <div class="col">
-          <ul class="nav nav-tabs nav-overflow header-tabs">
+          <ul class="nav nav-tabs nav-overflow header-tabs border-bottom">
             <li class="nav-item">
-              <a href="{% url 'user_topics' user.username %}" class="nav-link active">
-                Topics
+              <a href="{% url 'user_topics' user.username %}" class="nav-link">
+                Communities
               </a>
             </li>
             <li class="nav-item">
-              <a href="profile-groups.html" class="nav-link">
-                Bookmarks
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'saved_searches' %}" class="nav-link">
-                Saved 
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="{% url 'user_topics' user.username %}" class="nav-link">
                 People
               </a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'user_communities' user.username %}" class="nav-link">
-                Communities
+              <a href="" class="nav-link">
+                Posts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'saved_searches' %} {% if request.path == saved_searches_url %}active fw-800{% endif %}" class="nav-link">
+                Saved
               </a>
             </li>
           </ul>
         </div>
-      </div>
+      </div>  
     </div>
   </div>
 </div>
@@ -68,7 +63,7 @@
 {% if search_count > 0 %}
 <div class="mb-4">
   <form method="post" action="{% url 'new_saved_search' search_query %}">{% csrf_token %}
-    <button type="submit" class="btn btn-primary w-100">Save</button>
+    <button type="submit" class="btn btn-white w-100"><i class="bi bi-floppy"></i>&nbsp;&nbsp;Save</button>
   </form>
 </div>
 {% endif %}
@@ -96,7 +91,7 @@
           </div>
         </div>
       </div>
-      <div class="fs-11 overflow-auto">
+      <div class="fs-12 overflow-auto fw-bold">
         {{ topic.search_content_highlight|safe }}
       </div>
       <div class="mb-0 mt-4">
