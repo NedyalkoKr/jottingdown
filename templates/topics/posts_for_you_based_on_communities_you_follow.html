@@ -2,73 +2,56 @@
 {% load humanize %}
 {% block title %}Posts for you{% endblock %}
 {% block content %}
-<nav class="navbar navbar-expand-xl mt-4 mb-4 border rounded-2 px-4">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+<div class="card shadow-none mt-4">
+  <div class="card shadow-none px-0 mt-0 border-0">
+    <div class="card-body border-0 py-3">
+      <ul class="nav nav-tabs mb-0 border-bottom">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
+          <a class="nav-link active text-dark" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
+          <a class="nav-link text-dark" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'communities_you_follow' %}">Communities</a>
+          <a class="nav-link text-dark" href="{% url 'communities_you_follow' %}">Communities</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">Following</a>
+          <a class="nav-link text-dark" href="{% url 'following_users' %}">Following</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">Keywords</a>
+          <a class="nav-link text-dark" href="#!">Keywords</a>
         </li>
       </ul>
     </div>
   </div>
-</nav>
-<div class="card shadow-none">
   {% for topic in topics %}
   <div class="card-body border-bottom">
-    <div class="mb-4">
-      <div class="row align-items-center">
-        <div class="col-auto">
-          {% if topic.user.avatar %}
-          <a href="javascript:void(0)" class="avatar avatar-xs">
-            <img src="{{topic.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
-          </a>
-          {% else %}
-          <div class="avatar avatar-xs">
-            <span class="avatar-title rounded-circle">{{topic.user.username|slice:":2"}}</span>
-          </div>
-          {% endif %}
+    <div class="row align-items-center mb-4">
+      <div class="col-auto">
+        {% if topic.user.avatar %}
+        <a href="javascript:void(0)" class="avatar avatar-xs">
+          <img src="{{topic.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+        </a>
+        {% else %}
+        <div class="avatar avatar-xs">
+          <span class="avatar-title rounded-circle">{{topic.user.username|slice:":2"}}</span>
         </div>
-        <div class="col ms-n2">
-          <h4 class="mb-1">
-            {{ topic.user.username }}
-          </h4>
-          <p class="card-text small text-body-secondary">
-            <time datetime="{{topic.created|date:'Y-m-d H:i'}}">{{ topic.created|naturaltime }}</time>
-          </p>
-        </div>
-        <div class="col-auto">
-          <a href="{% url 'topic' topic.community.slug topic.pk %}" class="btn btn-sm btn-white">
-            {{ topic.community.name }}
-          </a>
-        </div>
-        <!-- <div class="card-header border-0">
-          <h2 class="card-header-title fw-800">
-            <a href="{% url 'topic' topic.community.slug topic.pk %}">
-              {{ topic.title }}
-            </a>
-          </h2>
-        </div> -->
+        {% endif %}
+      </div>
+      <div class="col ms-n2">
+        <h4 class="mb-1">
+          {{ topic.user.username }}
+        </h4>
+        <p class="card-text small text-body-secondary">
+          <time datetime="{{topic.created|date:'Y-m-d H:i'}}">{{ topic.created|naturaltime }}</time>
+        </p>
       </div>
     </div>
+    <a href="{% url 'topic' topic.community.slug topic.pk %}" class="text-dark">
     <div class="fs-11 overflow-auto mb-4 px-3">
       {{ topic.content|safe }}
     </div>
+    </a>
     <div class="mb-3">
       <div class="row">
         <div class="col">

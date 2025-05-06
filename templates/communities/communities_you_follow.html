@@ -1,56 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
-<nav class="navbar navbar-expand-xl mt-4 mb-4 border rounded-2 px-4">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+<div class="card shadow-none mt-4">
+  <div class="card shadow-none px-0 mt-0 border-0">
+    <div class="card-body border-0 py-3">
+      <ul class="nav nav-tabs mb-0 border-bottom">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
+          <a class="nav-link text-dark" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
+          <a class="nav-link text-dark" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'communities_you_follow' %}">Communities</a>
+          <a class="nav-link text-dark active" href="{% url 'communities_you_follow' %}">Communities</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">Following</a>
+          <a class="nav-link text-dark" href="{% url 'following_users' %}">Following</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">Keywords</a>
+          <a class="nav-link text-dark" href="#!">Keywords</a>
         </li>
       </ul>
     </div>
   </div>
-</nav>
-<div class="row">
-  <div class="col-12 col-xl">
-    <div class="card card-fill shadow-none">
-      <div class="card-body">
-        <div class="list-group list-group-flush my-n3">
-          {% for community in communities %}
-          <div class="list-group-item px-3">
-            <div class="row align-items-center">
-              <!-- <div class="col-auto"></div> -->
-              <div class="col ms-n2">
-                <h2 class="mb-1 fs-11 fw-bold">
-                  <a href="{% url 'posts_from_community_you_follow' community.slug %}">{{community|capfirst}}</a>
-                </h2>
-                <ul class="list-group list-group-horizontal mt-2">
-                  <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.topic_set.all|length}} topics</li>
-                  <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
-                </ul>
-              </div>
-              <div class="col-auto">
-                <span class="badge bg-primary">new 20</span>                
-              </div>
+  <div class="card card-fill shadow-none border-0">
+    <div class="card-body">
+      <div class="list-group list-group-flush my-n3">
+        {% for community in communities %}
+        <div class="list-group-item px-3">
+          <div class="row align-items-center">
+            <div class="col ms-n2">
+              <h2 class="mb-1 fs-11 fw-bold">
+                <a href="{% url 'posts_from_community_you_follow' community.slug %}">{{community|capfirst}}</a>
+              </h2>
+              <ul class="list-group list-group-horizontal mt-2">
+                <li class="list-group-item p-0 px-2 border-0 fs-08">{{community.topic_set.all|length}} topics</li>
+                <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
+              </ul>
             </div>
+            <!-- <div class="col-auto">
+              <span class="badge bg-primary">new 20</span>                
+            </div> -->
           </div>
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
     </div>
   </div>

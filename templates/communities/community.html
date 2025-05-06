@@ -60,7 +60,7 @@
 </div>
 <form action="{% url 'search_community_topics' community.slug %}" method="get" class="mt-4">
   <div class="input-group mb-3">
-    <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search topics" class="form-control" autocomplete="off">
+    <input type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search topics in this community" class="form-control" autocomplete="off">
     <button class="btn btn-outline-secondary" type="submit">Search</button>
   </div>
 </form>
@@ -78,7 +78,7 @@
         <div class="row align-items-center">
           <div class="col">
             <h1 class="mb-0 fs-12">
-              <a href="{% url 'topic' topic.community.slug topic.pk %}" class="">{{topic|capfirst}}</a>
+              <a href="{% url 'topic' topic.community.slug topic.pk %}" class="fw-bold">{{topic|capfirst}}</a>
             </h1>
             <ul class="list-group list-group-horizontal mt-2">
               <li class="list-group-item p-0 px-2 border-0 fs-08">{{topic.user}}</li>

@@ -28,16 +28,16 @@ class FollowCommunityView(LoginRequiredMixin, View):
     # Try to resolve the HTTP_REFERER to determine the originating page
     referer = self.request.META.get('HTTP_REFERER')
     if referer:
-        try:
-            resolved = resolve(self.request.build_absolute_uri(referer))
-            # Check if referer is the community page
-            if resolved.url_name == 'community' and resolved.kwargs.get('slug'):
-                return reverse('community', kwargs={'slug': resolved.kwargs['slug']})
-            # Check if referer is the user_communities page
-            elif resolved.url_name == 'user_communities' and resolved.kwargs.get('username'):
-                return reverse('user_communities', kwargs={'username': resolved.kwargs['username']})
-        except Resolver404:
-            pass
+      try:
+        resolved = resolve(self.request.build_absolute_uri(referer))
+        # Check if referer is the community page
+        if resolved.url_name == 'community' and resolved.kwargs.get('slug'):
+          return reverse('community', kwargs={'slug': resolved.kwargs['slug']})
+        # Check if referer is the user_communities page
+        elif resolved.url_name == 'user_communities' and resolved.kwargs.get('username'):
+          return reverse('user_communities', kwargs={'username': resolved.kwargs['username']})
+      except Resolver404:
+        pass
     # Fallback to user_communities with the current user's username
     return reverse('user_communities', kwargs={'username': self.request.user.username})
 
@@ -48,27 +48,26 @@ class UnfollowCommunityView(LoginRequiredMixin, View):
     community = get_object_or_404(Community, slug=slug)
     request.user.following_communities.remove(community)
     if request.htmx:
-        # Render the follow/unfollow button partial for HTMX
-        context = {'community': community, 'user': request.user}
-        html = render_to_string('communities/partials/_follow_button.html', context)
-        return HttpResponse(html)
+      # Render the follow/unfollow button partial for HTMX
+      context = {'community': community, 'user': request.user}
+      html = render_to_string('communities/partials/_follow_button.html', context)
+      return HttpResponse(html)
     # Redirect to appropriate URL for non-HTMX requests
     return redirect(self.get_success_url(slug))
   
   def get_success_url(self, slug):
-    # Try to resolve the HTTP_REFERER to determine the originating page
     referer = self.request.META.get('HTTP_REFERER')
     if referer:
-        try:
-            resolved = resolve(self.request.build_absolute_uri(referer))
-            # Check if referer is the community page
-            if resolved.url_name == 'community' and resolved.kwargs.get('slug'):
-                return reverse('community', kwargs={'slug': resolved.kwargs['slug']})
-            # Check if referer is the user_communities page
-            elif resolved.url_name == 'user_communities' and resolved.kwargs.get('username'):
-                return reverse('user_communities', kwargs={'username': resolved.kwargs['username']})
-        except Resolver404:
-            pass
+      try:
+        resolved = resolve(self.request.build_absolute_uri(referer))
+        # Check if referer is the community page
+        if resolved.url_name == 'community' and resolved.kwargs.get('slug'):
+          return reverse('community', kwargs={'slug': resolved.kwargs['slug']})
+        # Check if referer is the user_communities page
+        elif resolved.url_name == 'user_communities' and resolved.kwargs.get('username'):
+          return reverse('user_communities', kwargs={'username': resolved.kwargs['username']})
+      except Resolver404:
+          pass
     # Fallback to user_communities with the current user's username
     return reverse('user_communities', kwargs={'username': self.request.user.username})
 
@@ -128,3 +127,18 @@ class UnfollowUserView(LoginRequiredMixin, View):
     
     referer = request.META.get('HTTP_REFERER', '')
     return redirect(referer or 'follow_people')
+
+
+class FollowingUsersView(LoginRequiredMixin, ListView):
+
+  http_method_names = ["get",]
+  context_object_name = 'users'
+  template_name = "users/follow/following_users.html"
+  # permission_required = ('accounts.full_access_to_entire_platform',)
+  
+  # def handle_no_permission(self):
+  #   return HttpResponseRedirect(reverse('billing', kwargs={'username': self.request.user}))
+
+  def get_queryset(self):
+    users = User.objects.filter(following=self.request.user)
+    return users

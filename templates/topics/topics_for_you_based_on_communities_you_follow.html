@@ -2,39 +2,35 @@
 {% load humanize %}
 {% block title %}For you{% endblock %}
 {% block content %}
-<nav class="navbar navbar-expand-xl mt-4 mb-4 border rounded-2 px-4">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+<div class="card shadow-none mt-4">
+  <div class="card shadow-none px-0 mt-0 border-0">
+    <div class="card-body border-0 py-3">
+      <ul class="nav nav-tabs mb-0 border-bottom">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
+          <a class="nav-link text-dark" href="{% url 'posts_foryou_based_on_communities_you_follow' %}">Posts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
+          <a class="nav-link text-dark active" href="{% url 'topics_foryou_based_on_communities_you_follow' %}">Topics</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'communities_you_follow' %}">Communities</a>
+          <a class="nav-link text-dark" href="{% url 'communities_you_follow' %}">Communities</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">Following</a>
+          <a class="nav-link text-dark" href="{% url 'following_users' %}">Following</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!">Keywords</a>
+          <a class="nav-link text-dark" href="#!">Keywords</a>
         </li>
       </ul>
     </div>
   </div>
-</nav>
-<div class="card shadow-none">
+  {% if topics.count > 0 %}
   <div class="card-body">
     <div class="list-group list-group-flush my-n3">
       {% for topic in topics %}
       <div class="list-group-item">
         <div class="row align-items-center">
-          <div class="col ms-n0 px-3">
+          <div class="col ms-n0 px-4">
             <h4 class="mb-1 fs-11 fw-bold">
               <a href="{% url 'topic' topic.community.slug topic.pk %}">{{ topic.title|capfirst }}</a>
             </h4>
@@ -46,8 +42,19 @@
           <div class="col-auto">563 <br> views</div>
         </div>
       </div>
+      {% empty %}
+      <div class="list-group-item">
+        <div class="row align-items-center">
+          <div class="col ms-n0 px-4">
+            <h4 class="mb-1 fs-11 fw-bold">
+              No topics found
+            </h4>
+          </div>
+        </div>
+      </div>
       {% endfor %}
     </div>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

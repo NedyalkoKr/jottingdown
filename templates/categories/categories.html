@@ -80,7 +80,7 @@
             {% for community in category.communities.all %}
             <tr>
               <td class="orders-order" colspan="5">
-                <a href="{% url 'community' community.slug %}" class="fs-1 text-dark fw-bold">{{ community.name|capfirst }}</a>
+                <a href="{% url 'community' community.slug %}" class="fs-11 text-dark fw-bold">{{ community.name|capfirst }}</a>
               </td>
               <td class="orders-product" width="50">
                 {{ community.topic_set.count }}

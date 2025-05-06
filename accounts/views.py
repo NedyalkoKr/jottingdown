@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.views.generic import ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordChangeView, PasswordChangeDoneView, PasswordResetCompleteView
 from topics.models import Topic
@@ -44,8 +45,8 @@ class UserLogoutView(LogoutView):
 
 class UserTopicsView(LoginRequiredMixin, ListView):
 
-  context_object_name = 'topics'
   http_method_names = ["get",]
+  context_object_name = 'topics'
   template_name = 'topics/user_topics.html'
 
   def get_queryset(self):
@@ -98,7 +99,7 @@ class UserProfileSettingsUpdateView(LoginRequiredMixin, SuccessMessageMixin, Use
     return reverse('user_settings', kwargs={'username': self.request.user })
 
 
-class UserPasswordChangeView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, PasswordChangeView):
+class UserPasswordChangeView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, PasswordChangeView):
 
   form_class = UserPasswordChangeForm
   http_method_names = ['get', 'post',]
@@ -106,8 +107,8 @@ class UserPasswordChangeView(LoginRequiredMixin, PermissionRequiredMixin, UserPa
   success_message = 'Password change was successful. Login with your new password.'
   permission_required = ('accounts.full_access_to_entire_platform',)
 
-  def handle_no_permission(self):
-    return HttpResponseRedirect(reverse('billing', kwargs={'username': self.request.user}))
+  # def handle_no_permission(self):
+  #   return HttpResponseRedirect(reverse('billing', kwargs={'username': self.request.user}))
 
   @method_decorator(sensitive_post_parameters('old_password', 'new_password1', 'new_password2',))
   @method_decorator(csrf_protect)

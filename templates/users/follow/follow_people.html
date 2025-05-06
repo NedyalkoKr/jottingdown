@@ -39,16 +39,16 @@
             <tr>
               <td class="orders-order" colspan="5">
                 {% if user_to_follow.avatar %}
-                <a href="" class="avatar avatar-sm text-dark">
+                <a href="" class="avatar avatar-xs text-dark">
                   <img src="{{ user_to_follow.avatar.url }}" alt="..." class="avatar-img rounded-circle">
-                  <span class="fs-09">{{ user_to_follow.username }}</span>
+                  <span class="fs-09">&nbsp;{{ user_to_follow.username }}</span>
                 </a>
                 {% else %}
-                <a href="" class="avatar avatar-sm text-dark">
-                  <div class="avatar avatar-sm text-dark">
+                <a href="" class="avatar avatar-xs text-dark">
+                  <div class="avatar avatar-xs text-dark">
                     <span class="avatar-title rounded-circle">{{ user_to_follow.username|slice:":2" }}</span>
                   </div>
-                  <span class="fs-09">{{ user_to_follow.username }}</span>
+                  <span class="fs-09">&nbsp;&nbsp;&nbsp;{{ user_to_follow.username }}</span>
                 </a>
                 {% endif %}
               </td>
