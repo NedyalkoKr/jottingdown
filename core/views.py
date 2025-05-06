@@ -111,7 +111,7 @@ class PostsFromCommunityYouFollowView(LoginRequiredMixin, ListView):
 
   def get_queryset(self):
     community = Community.objects.get(slug=self.kwargs['slug'])
-    posts = Topic.objects.filter(community=community).filter(created__day=timezone.now().day, created__month=timezone.now().month, created__year=timezone.now().year).order_by('-created')
+    posts = Topic.objects.filter(community=community).order_by('-created').exclude(user=self.request.user)
     return posts
   
   def get_context_data(self, **kwargs):

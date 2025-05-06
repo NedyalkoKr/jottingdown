@@ -40,7 +40,7 @@ def highlight_text(text, query, min_length=3):
       continue
     # Dynamic threshold based on query length
     query_length = len(q_word)
-    similarity_threshold = 0.5 if query_length < 5 else 0.6 if query_length <= 10 else 0.7
+    similarity_threshold = 0.2 if query_length < 5 else 0.3 if query_length <= 10 else 0.4
 
     matches = []
     for start, end, word in words:
@@ -184,6 +184,7 @@ class SearchAllTopicsView(LoginRequiredMixin, ListView):
     return topics
   
   def get_trigram_search_queryset(self, query, query_length):
+    cleaned_query = remove_stop_words(query)
     if query_length < 5:
       trigram_threshold = 0.2
     elif query_length <= 10:
@@ -200,8 +201,8 @@ class SearchAllTopicsView(LoginRequiredMixin, ListView):
       "-similarity"
     )
     for topic in topics:
-      topic.content_highlight = highlight_text(topic.content, query)
-      topic.search_title_highlight = highlight_text(topic.title, query)
+      topic.content_highlight = highlight_text(topic.content, cleaned_query)
+      topic.search_title_highlight = highlight_text(topic.title, cleaned_query)
     return topics
 
   def get_queryset(self):

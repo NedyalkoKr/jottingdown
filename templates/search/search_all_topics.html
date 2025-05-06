@@ -32,12 +32,19 @@
       <li class="nav-item">
         <a class="nav-link" href="#!">Comments</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#!">Top</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#!">Latest</a>
+      </li>
     </ul>
   </div>
   <div class="card-body">
     <div class="list-group list-group-flush my-n3">
       {% for topic in topics %}
-      <div class="list-group-item">
+      Score: {{ rank }}
+      <div class="list-group-item py-4">
         <h2 class="fs-12 fw-800">
           <a href="{% url 'topic' topic.community.slug topic.pk %}">
             {{topic.search_title_highlight|safe}}
@@ -64,7 +71,7 @@
         </div>
         <div class="card-body">
           <div class="fs-12 fw-bold">
-            {{topic.search_content_highlight|safe}}
+            {{topic.content_highlight|safe}}
           </div>
         </div>
       </div>

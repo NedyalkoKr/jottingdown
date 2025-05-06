@@ -19,11 +19,19 @@
         <h4 class="card-header-title">
           Searches
         </h4>
+        <div class="dropdown">
+          <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-three-dots text-dark"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="#!" class="dropdown-item">Latest</a>
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <div class="list-group list-group-flush my-n3">
           {% for search in searches %}
-          <div class="list-group-item">
+          <div class="list-group-item px-4">
             <div class="row align-items-center">
               <div class="col ms-n2">
                 <h4 class="mb-1">
