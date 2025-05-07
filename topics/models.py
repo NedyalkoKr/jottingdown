@@ -19,7 +19,6 @@ class Topic(models.Model):
   community = models.ForeignKey(to=Community, on_delete=models.CASCADE, null=True)
   content = tinymce_models.HTMLField(default="", blank=True)
   search_vector = SearchVectorField(null=True)
-  views = models.PositiveIntegerField(default=0)
 
   class Meta:
     db_table = "topics"
@@ -30,13 +29,3 @@ class Topic(models.Model):
 
   def __str__(self):
     return f'{self.title}'
-
-
-class TopicView(models.Model):
-
-  topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='topic_views')
-  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-  viewed_at = models.DateTimeField(auto_now_add=True)
-
-  class Meta:
-    unique_together = ('topic', 'user')

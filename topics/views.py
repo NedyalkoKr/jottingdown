@@ -6,7 +6,8 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from core.models import Community
-from .models import Topic, TopicView
+from .models import Topic
+from analytics.models import TopicView  
 from .forms import TopicModelForm
 
 
