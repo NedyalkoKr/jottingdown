@@ -1,8 +1,10 @@
-from django.db.models import F, Count
 from datetime import timedelta
 from django.utils import timezone
+from django.db.models import F, Count
+from django.db import transaction
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django_extensions.db.fields import RandomCharField
 from django.views.generic import ListView, DetailView
 from .models import Category, Community
 from topics.models import Topic
@@ -106,9 +108,13 @@ class TopicDetailView(LoginRequiredMixin, DetailView):
       community=community,
       pk=self.kwargs['topic_pk']
     )
-    if not TopicView.objects.filter(topic=topic, user=self.request.user).exists():
-      TopicView.objects.create(topic=topic, user=self.request.user)
-      Topic.objects.filter(pk=topic.pk).update(views=F('views') + 1)
+
+    with transaction.atomic():
+      TopicView.objects.get_or_create(
+        topic=topic,
+        user=self.request.user,
+        defaults={'view_count': 1}
+      )
     return topic
 
 
@@ -168,7 +174,7 @@ class CommunityTopicsWithMostViews(LoginRequiredMixin, ListView):
   def get_queryset(self):
     user = self.request.user
     community = Community.objects.get(slug=self.kwargs['slug'])
-    topics = Topic.objects.filter(community=community).exclude(user=user).order_by('-views')
+    topics = Topic.objects.filter(community=community).exclude(user=user)
     return topics
   
   def get_context_data(self, **kwargs):
