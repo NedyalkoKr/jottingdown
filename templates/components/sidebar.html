@@ -8,6 +8,7 @@
 {% url 'searches' as searches_url %}
 {% url 'saved_searches' as saved_searches_url %}
 {% url 'community' community.slug as community_url %}
+{% url 'community_posts' community.slug as community_posts_url %}
 {% url 'search_user_topics' as search_user_topics_url %}
 {% url 'posts_foryou_based_on_communities_you_follow' as posts_foryou_based_on_communities_you_follow_url %}
 {% url 'topics_foryou_based_on_communities_you_follow' as topics_foryou_based_on_communities_you_follow_url %}
@@ -55,7 +56,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12 {% if request.path == communities_url or request.path == community_url %}active fw-800{% endif %}" href="{% url 'communities' %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == communities_url or request.path == community_url or request.path == community_posts_url %}active fw-800{% endif %}" href="{% url 'communities' %}">
             Communities
           </a>
         </li>

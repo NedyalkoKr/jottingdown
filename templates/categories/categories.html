@@ -22,11 +22,15 @@
 </div>
 <div class="collapse" id="filterCategories">
   <ul class="list-group">
-    {% for category in categories %}
-    <li class="list-group-item py-2">
-      <a href="#category-{{ category.slug }}">{{ category.name|capfirst }}</a>
-    </li>
-    {% endfor %}
+    <div class="card shadow-none">
+      <div class="card-body p-0 border-0">
+        {% for category in categories %}
+        <li class="list-group-item py-2">
+          <a href="#category-{{ category.slug }}">{{ category.name|capfirst }}</a>
+        </li>
+        {% endfor %}
+      </div>
+    </div>
   </ul>
 </div>
 <div class="row mt-4">

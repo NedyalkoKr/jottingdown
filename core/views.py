@@ -1,4 +1,5 @@
 from django.db.models import F
+from datetime import timedelta
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,19 +38,56 @@ class CommunityView(LoginRequiredMixin, DetailView):
     return community
   
 
-class CommunityLatestTopicsView(LoginRequiredMixin, DetailView):
+class CommunityPostsView(LoginRequiredMixin, DetailView):
 
-  model = Topic
-  template_name = 'communities/latest_community_topics.html'
-  context_object_name = 'topics'
+  model = Community
+  http_method_names = ["get",]
+  template_name = 'communities/community_posts.html'
+  context_object_name = 'community'
 
   def get_object(self):
-    topics = Topic.objects.filter(community=Community.objects.get(slug=self.kwargs['slug'])).filter(created__day=timezone.now().day, created__month=timezone.now().month, created__year=timezone.now().year)
+    community = Community.objects.prefetch_related('topic_set__user').get(slug=self.kwargs['slug'])
+    return community
+
+
+class LatestCommunityTopicsView(LoginRequiredMixin, ListView):
+
+  http_method_names = ["get",]
+  context_object_name = 'topics'
+  template_name = 'communities/latest_community_topics.html'
+
+  def get_queryset(self):
+    community = Community.objects.get(slug=self.kwargs['slug'])
+    topics = Topic.objects.filter(community=community).filter(created__day=timezone.now().day, created__month=timezone.now().month, created__year=timezone.now().year).exclude(user=self.request.user)
     return topics
   
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['community'] = Community.objects.get(slug=self.kwargs['slug'])
+    return context
+
+
+class LatestCommunityPostsView(LoginRequiredMixin, ListView):
+
+  http_method_names = ["get",]
+  context_object_name = 'posts'
+  template_name = 'communities/latest_community_posts.html'
+
+  def get_queryset(self):
+    community = get_object_or_404(Community, slug=self.kwargs["slug"])
+    today = timezone.now().date()
+    start_of_day = timezone.make_aware(timezone.datetime.combine(today, timezone.datetime.min.time()))
+    end_of_day = start_of_day + timedelta(days=1)
+    queryset = Topic.objects.filter(
+      community=community,
+      created__gte=start_of_day,
+      created__lt=end_of_day
+    ).exclude(user=self.request.user)
+    return queryset
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context["community"] = get_object_or_404(Community, slug=self.kwargs["slug"])
     return context
 
 

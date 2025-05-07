@@ -62,7 +62,7 @@ class SearchCommunityTopicsView(LoginRequiredMixin, ListView):
 
   http_method_names = ['get']
   context_object_name = "topics"
-  template_name = "search/search_topics.html"
+  template_name = "search/search_community_topics.html"
 
   def get_queryset(self):
     query = self.request.GET.get("q", "").strip()
