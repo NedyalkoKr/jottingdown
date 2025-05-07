@@ -1,4 +1,4 @@
-from django.db.models import F
+from django.db.models import F, Count
 from datetime import timedelta
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
@@ -151,6 +151,24 @@ class PostsFromCommunityYouFollowView(LoginRequiredMixin, ListView):
     community = Community.objects.get(slug=self.kwargs['slug'])
     posts = Topic.objects.filter(community=community).order_by('-created').exclude(user=self.request.user)
     return posts
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['community'] = Community.objects.get(slug=self.kwargs['slug'])
+    return context
+  
+
+class CommunityTopicsWithMostViews(LoginRequiredMixin, ListView):
+
+  http_method_names = ['get',]
+  context_object_name = 'topics'
+  template_name = "topics/community_topics_most_views.html"
+
+  def get_queryset(self):
+    user = self.request.user
+    community = Community.objects.get(slug=self.kwargs['slug'])
+    topics = Topic.objects.filter(community=community).exclude(user=user).order_by('-views')
+    return topics
   
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
