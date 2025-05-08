@@ -1,4 +1,4 @@
-""" Django settings for collective project. """
+""" Django settings for jottingdown project. """
 
 import os
 from pathlib import Path
@@ -93,7 +93,7 @@ TEMPLATES = [{
 # ------------------------------------------------------------------------------
 
 WSGI_APPLICATION = 'jottingdown.wsgi.application'
-# ASGI_APPLICATION = 'collective.asgi.application'
+# ASGI_APPLICATION = 'jottingdown.asgi.application'
 
 
 # Database

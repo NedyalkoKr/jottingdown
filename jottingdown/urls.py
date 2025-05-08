@@ -1,4 +1,4 @@
-""" URL configuration for collective project. """
+""" URL configuration for jottingdown project. """
 
 from django.contrib import admin
 from django.conf import settings
