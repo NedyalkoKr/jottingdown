@@ -6,7 +6,7 @@
     <div class="header-body mt-n5 mt-md-n6 border-bottom-0">
       <div class="row align-items-end">
         <div class="col-auto">
-        {% if user.avatar %}
+          {% if user.avatar %}
           <a href="javascript:void(0)" class="avatar avatar-sm">
             <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
           </a>
@@ -14,7 +14,7 @@
           <div class="avatar avatar-sm">
             <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
           </div>
-        {% endif %}
+          {% endif %}
         </div>
         <div class="col mb-3 ms-n3 ms-md-n2">
           <h6 class="header-pretitle">

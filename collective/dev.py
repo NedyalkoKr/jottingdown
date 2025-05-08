@@ -41,6 +41,7 @@ LOCAL_APPS = [
   'topics.apps.TopicsConfig',
   'search.apps.SearchConfig',
   'analytics.apps.AnalyticsConfig',
+  'comments.apps.CommentsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

@@ -1,0 +1,139 @@
+{% extends '../base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="card shadow-none mt-4">
+  <div class="card-header">
+
+
+    <h4 class="card-header-title">
+      {{topic.title}}
+    </h4>
+    <a href="{% url 'community' topic.community.slug %}"><i class="bi bi-x-lg"></i></a>
+  </div>
+  <div class="card-body">
+    <div class="mb-3">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          {% if user.avatar %}
+          <a href="javascript:void(0)" class="avatar avatar-sm">
+            <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+          </a>
+          {% else %}
+          <div class="avatar avatar-sm">
+            <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="col ms-n2">
+          <h4 class="mb-1">
+            {{user.username}}
+          </h4>
+          <p class="card-text small text-body-secondary">
+            <time datetime="{{topic.created|date:'Y-m-d H:i:s'}}">{{topic.created|timesince}}</time>
+          </p>
+        </div>
+        <!-- <div class="col-auto">
+          <div class="dropdown">
+            <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bi bi-three-dots text-dark"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="#!" class="dropdown-item">
+                Action
+              </a>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="mb-3 fs-11">
+      {{topic.content|safe}}
+    </div>
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+          <a href="#!" class="btn btn-sm btn-white">
+            😬 1
+          </a>
+          <a href="#!" class="btn btn-sm btn-white">
+            👍 2
+          </a>
+          <a href="#!" class="btn btn-sm btn-white">
+            Add Reaction
+          </a>
+
+        </div>
+
+      </div> <!-- / .row -->
+    </div>
+    <div class="col ms-n2">
+
+      <!-- Form -->
+      <form class="mt-1">
+        <label class="visually-hidden">Leave a comment...</label>
+        <textarea class="form-control form-control-flush" data-autosize="" rows="1" placeholder="Leave a comment" style="overflow: hidden; overflow-wrap: break-word; text-align: start; height: 41px;"></textarea>
+      </form>
+
+    </div>
+    <hr>
+
+    <!-- Comments -->
+    <div class="comment mb-3">
+      <div class="row">
+        <div class="col-auto">
+
+          {% if user.avatar %}
+          <a href="javascript:void(0)" class="avatar avatar-sm">
+            <img src="{{user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+          </a>
+          {% else %}
+          <div class="avatar avatar-xs">
+            <span class="avatar-title rounded-circle">{{user.username|slice:":2"}}</span>
+          </div>
+          {% endif %}
+
+
+        </div>
+        <div class="col ms-n2">
+
+          <!-- Body -->
+          <div class="comment-body">
+
+            <div class="row">
+              <div class="col">
+
+                <!-- Title -->
+                <h5 class="comment-title">
+                  Ab Hadley
+                </h5>
+
+              </div>
+              <div class="col-auto">
+
+                <!-- Time -->
+                <time class="comment-time">
+                  11:12
+                </time>
+
+              </div>
+            </div>
+
+            <!-- Text -->
+            <p class="comment-text">
+              Looking good Dianna! I like the image grid on the left, but it feels like a lot to process and doesn't really <em>show</em> me what the product does? I think using a short looping video or something similar demo'ing the product might be better?
+            </p>
+
+          </div>
+
+        </div>
+      </div> <!-- / .row -->
+    </div>
+
+
+    <!-- Divider -->
+    <hr>
+
+
+  </div>
+</div>
+{% endblock %}
