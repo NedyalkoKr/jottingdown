@@ -1,0 +1,25 @@
+.fs-08 { font-size: 0.8rem !important;}
+.fs-09 { font-size: 0.9rem !important;}
+.fs-1 {font-size: 1rem !important;}
+.fs-11 {font-size: 1.1rem !important;}
+.fs-12 {font-size: 1.2rem !important;}
+.fs-13 {font-size: 1.3rem !important;}
+.fs-14 {font-size: 1.4rem !important;}
+.fs-15 {font-size: 1.4rem !important;}
+.fs-16 {font-size: 1.4rem !important;}
+.fs-17 {font-size: 1.4rem !important;}
+.fs-18 {font-size: 1.8rem !important;}
+.fs-2 {font-size: 2rem !important;}
+.fw-500 {font-weight: 500;}
+.fw-600 {font-weight: 600;}
+.fw-800 {font-weight: 800 !important;}
+
+a::after {
+  content: none !important;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  color: rgb(34, 34, 34);
+}
