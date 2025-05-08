@@ -170,7 +170,7 @@ class OffensiveWordsValidator(RegexValidator):
         "twat", "prolapse", "orgasm", "gagging", "pedophile", "dominatrix", "gloryhole", "smegma",
         "suicide", "futanari", "jugs", "nutsack", "titty", "tgirl", "brothel", "ejaculate", "slut",
         "shitter", "shitting", "shitstain", "skinflute", "swingers", "handjob", "nudity",
-        "dragqueen", "twerk", "lesbian", "masturbating", "whore", "striptease", "farting", "asshole", "arsehole", "bastard", "horseshit", "dickhead", "wanker", "punani", "minge", "bisexual", "transgender", "transgendered", "bareback", "homosexual", "voyeurism", "pedophilia", "sex", "pu\$\$y"
+        "dragqueen", "twerk", "lesbian", "masturbating", "whore", "striptease", "farting", "asshole", "arsehole", "bastard", "horseshit", "dickhead", "wanker", "punani", "minge", "bisexual", "transgender", "transgendered", "bareback", "homosexual", "voyeurism", "pedophilia", "sex", r"pu\$\$y"
     ]
     regex = r"\b(" + "|".join(OFFENSIVE_WORDS) + r")\b"
     message = f"Do not use offensive word(s)."
