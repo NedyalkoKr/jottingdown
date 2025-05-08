@@ -159,7 +159,7 @@ class OffensiveWordsValidator(RegexValidator):
     OFFENSIVE_WORDS = [
         "creampie", "cuckold", "vulva", "cunnilingus", "lovegoo", "lovebone", "lovegun",
         "pussy", "milf", "jizz", "pussies", "ebony", "prostitute", "bukkake", "vagina", "dildo",
-        "sodomize", "dyke", "nipple", "masturbate", "skank", "morgue", "stripper", "lolita",
+        "sodomize", "dyke", "masturbate", "skank", "morgue", "stripper", "lolita",
         "cameltoe", "queer", "incest", "feces", "rimjob", "shemale", "fisting", "footjob",
         "cocaine", "rectal", "rapist", "genitals", "scrotum", "jihad", "lapdance", "squirt",
         "gangbang", "ladyboy", "spunk", "bestiality", "playboy", "crossdressing", "femdom",

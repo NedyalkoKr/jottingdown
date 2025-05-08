@@ -67,7 +67,7 @@ MIDDLEWARE = [
 # URL Mapper
 # -----------------------------------------------------------------------------
 
-ROOT_URLCONF = 'collective.urls'
+ROOT_URLCONF = 'jottingdown.urls'
 
 
 # Templates
@@ -92,7 +92,7 @@ TEMPLATES = [{
 # Deployment
 # ------------------------------------------------------------------------------
 
-WSGI_APPLICATION = 'collective.wsgi.application'
+WSGI_APPLICATION = 'jottingdown.wsgi.application'
 # ASGI_APPLICATION = 'collective.asgi.application'
 
 
@@ -109,6 +109,7 @@ DATABASES = {
     'PORT': '5432',
   }
 }
+
 
 # Password managament
 # ------------------------------------------------------------------------------
