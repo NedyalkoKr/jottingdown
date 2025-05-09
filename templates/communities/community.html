@@ -80,7 +80,7 @@
     <a class="nav-link" href="{% url 'community_posts' community.slug %}">Posts</a>
   </li>
 </ul>
-{% if community.topic_set.count > 0 %}
+{% if topics.count > 0 %}
 <div class="card shadow-none">
   <div class="card-header">
     <h4 class="card-header-title">
@@ -89,12 +89,12 @@
   </div>
   <div class="card-body">
     <div class="list-group list-group-flush my-n3">
-      {% for topic in community.topic_set.all %}
+      {% for topic in topics %}
       <div class="list-group-item px-2 py-4">
         <div class="row align-items-center">
           <div class="col">
             <h1 class="mb-0 fs-12">
-              <a href="{% url 'topic' topic.community.slug topic.pk %}" class="">{{topic|capfirst}}</a>
+              <a href="{% url 'topic' topic.community.slug topic.pk %}" class="fw-bold">{{topic|capfirst}}</a>
             </h1>
             <ul class="list-group list-group-horizontal mt-2">
               <li class="list-group-item p-0 px-2 border-0 fs-08">{{topic.user}}</li>

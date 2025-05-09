@@ -76,32 +76,32 @@
   </li>
 </ul>
 <div class="card shadow-none">
-{% for topic in community.topic_set.all %}
+{% for post in posts %}
 <div class="card-body border-bottom">
   <div class="row align-items-center mb-4">
     <div class="col-auto">
-      {% if topic.user.avatar %}
+      {% if post.user.avatar %}
       <a href="javascript:void(0)" class="avatar avatar-xs">
-        <img src="{{topic.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+        <img src="{{post.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
       </a>
       {% else %}
       <div class="avatar avatar-xs">
-        <span class="avatar-title rounded-circle">{{topic.user.username|slice:":2"}}</span>
+        <span class="avatar-title rounded-circle">{{post.user.username|slice:":2"}}</span>
       </div>
       {% endif %}
     </div>
     <div class="col ms-n2">
       <h4 class="mb-1">
-        {{ topic.user.username }}
+        {{ post.user.username }}
       </h4>
       <p class="card-text small text-body-secondary">
-        <time datetime="{{topic.created|date:'Y-m-d H:i'}}">{{ topic.created|naturaltime }}</time>
+        <time datetime="{{post.created|date:'Y-m-d H:i'}}">{{ post.created|naturaltime }}</time>
       </p>
     </div>
   </div>
-  <a href="{% url 'topic' topic.community.slug topic.pk %}" class="text-dark">
+  <a href="{% url 'topic' post.community.slug post.pk %}" class="text-dark">
   <div class="fs-11 overflow-auto mb-4 px-3">
-    {{ topic.content|safe }}
+    {{ post.content|safe }}
   </div>
   </a>
   <div class="mb-3">

@@ -72,6 +72,7 @@
     <button class="btn btn-outline-secondary" type="submit">Search</button>
   </div>
 </form>
+{% if topics %}
 <div class="card shadow-none">
   <div class="card-header">
     <h4 class="card-header-title">
@@ -104,4 +105,5 @@
     </div>
   </div>
 </div>
+{% endif %}
 {% endblock content %}

@@ -31,6 +31,8 @@ urlpatterns = [
     path(route='follow/', view=include('follow.urls.follow_urls')),
     path(route='unfollow/', view=include('follow.urls.unfollow_urls')),
     path(route='search/', view=include('search.urls.search_urls')),
+    path(route='comment/', view=include('comments.urls.comment_urls')),
+    path(route='comments/', view=include('comments.urls.comments_urls')),
 ]
 
 if settings.DEBUG:

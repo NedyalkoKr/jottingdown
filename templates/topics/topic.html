@@ -6,7 +6,7 @@
     <h2 class="card-header-title fw-800">
       {{topic.title}}
     </h2>
-    <a href="{% url 'community' topic.community.slug %}"><i class="bi bi-x-lg"></i></a>
+    <a href="{% url 'community' topic.community.slug %}"><i class="bi bi-x-lg text-dark"></i></a>
   </div>
   <div class="card-body">
     <div class="mb-3">
@@ -44,14 +44,14 @@
         </div> -->
       </div>
     </div>
-    <div class="mb-3">
-      {% if topic.image %}
+    <div class="mb-4 px-4">
+      {% if topic.is_image %}
       <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modalImage-{{topic.slug}}">
         <img src="{{topic.image.url}}" alt="{{topic.title}}" class="img-fluid border rounded">
       </a>
       {% else %}
       <div class="fs-11">
-        {{topic.content|safe}}
+        {{topic.content|cut:"<p>"|cut:"</p>"|safe}}
       </div>
       {% endif %}
     </div>
@@ -154,9 +154,11 @@
           
         </div>
        
-
+        <div class="modal-body">
+          {% if topic.is_image %}
          <img src="{{topic.image.url}}" alt="{{topic.title}}" class="img-fluid">
-
+         {% endif %}
+        </div>
         
       </div>
     </div>

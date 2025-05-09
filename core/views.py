@@ -30,27 +30,38 @@ class CategoriesView(LoginRequiredMixin, ListView):
     return context
   
 
-class CommunityView(LoginRequiredMixin, DetailView):
+class CommunityView(LoginRequiredMixin, ListView):
 
-  model = Community
-  template_name = 'communities/community.html'
-  context_object_name = 'community'
-
-  def get_object(self):
-    community = Community.objects.prefetch_related('topic_set__user').get(slug=self.kwargs['slug'])
-    return community
-  
-
-class CommunityPostsView(LoginRequiredMixin, DetailView):
-
-  model = Community
   http_method_names = ["get",]
-  template_name = 'communities/community_posts.html'
-  context_object_name = 'community'
+  context_object_name = 'topics'
+  template_name = 'communities/community.html'
 
-  def get_object(self):
+  def get_queryset(self):
     community = Community.objects.prefetch_related('topic_set__user').get(slug=self.kwargs['slug'])
-    return community
+    topics = Topic.objects.filter(community=community).exclude(user=self.request.user)
+    return topics
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['community'] = Community.objects.get(slug=self.kwargs['slug'])
+    return context
+
+
+class CommunityPostsView(LoginRequiredMixin, ListView):
+
+  http_method_names = ["get",]
+  context_object_name = 'posts'
+  template_name = 'communities/community_posts.html'
+
+  def get_queryset(self):
+    community = Community.objects.prefetch_related('topic_set__user').get(slug=self.kwargs['slug'])
+    posts = Topic.objects.filter(community=community).exclude(user=self.request.user)
+    return posts
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['community'] = Community.objects.get(slug=self.kwargs['slug'])
+    return context
 
 
 class LatestCommunityTopicsView(LoginRequiredMixin, ListView):
