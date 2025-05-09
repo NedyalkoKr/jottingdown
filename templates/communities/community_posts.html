@@ -101,7 +101,11 @@
   </div>
   <a href="{% url 'topic' post.community.slug post.pk %}" class="text-dark">
   <div class="fs-11 overflow-auto mb-4 px-3">
+    {% if post.is_image %}
+    <img src="{{post.image.url}}" alt="..." class="img-fluid">
+    {% else %}
     {{ post.content|safe }}
+    {% endif %}
   </div>
   </a>
   <div class="mb-3">
