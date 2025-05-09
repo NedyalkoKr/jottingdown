@@ -174,7 +174,7 @@ class CommunityTopicsWithMostViews(LoginRequiredMixin, ListView):
   def get_queryset(self):
     user = self.request.user
     community = Community.objects.get(slug=self.kwargs['slug'])
-    topics = Topic.objects.filter(community=community).exclude(user=user)
+    topics = Topic.objects.filter(community=community).exclude(user=user).order_by('topic_views__view_count')
     return topics
   
   def get_context_data(self, **kwargs):

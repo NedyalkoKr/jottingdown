@@ -7,9 +7,7 @@
     <div class="header-body pb-3">
       <div class="row align-items-end">
         <div class="col">
-          <h1 class="header-title fs-12">
-           Categories
-          </h1>
+          <h1 class="header-title fs-12">Interests</h1>
         </div>
         <div class="col-auto">
           <a class="btn btn-primary btn-white text-dark rounded-5" data-bs-toggle="collapse" href="#filterCategories">
@@ -84,7 +82,7 @@
             {% for community in category.communities.all %}
             <tr>
               <td class="orders-order" colspan="5">
-                <a href="{% url 'community' community.slug %}" class="fs-11 text-dark fw-bold">{{ community.name|capfirst }}</a>
+                <a href="{% url 'community' community.slug %}" class="fs-11 text-dark fw-bold"><i class="bi bi-dot"></i>&nbsp;&nbsp;{{ community.name|capfirst }}</a>
               </td>
               <td class="orders-product" width="50">
                 {{ community.topic_set.count }}

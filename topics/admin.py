@@ -12,7 +12,7 @@ class TopicAdmin(admin.ModelAdmin):
   # list_per_page = 1
   # ordering = ('-created',)
   fieldsets = (
-    ("", {"fields": ("title", "community", "user", "content",)}),
+    ("", {"fields": ("title", "community", "user", "content", "image", "is_image",)}),
   )
 
   def community_link(self, obj):

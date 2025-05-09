@@ -16,14 +16,14 @@
   <div class="card-header border-bottom-0">
     <ul class="nav nav-tabs nav-tabs-sm">
       <li class="nav-item">
-        <a href="{% url 'new_topic' community.slug %}" class="nav-link active text-dark">Topic</a>
+        <a href="{% url 'new_topic' community.slug %}" class="nav-link text-dark">Topic</a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'new_media_topic' community.slug %}" class="nav-link text-dark">Media</a>
+        <a href="{% url 'new_media_topic' community.slug %}" class="nav-link active text-dark">Media</a>
       </li>
     </ul>
   </div>
-  <form action="{% url 'new_topic' community.slug %}" method="post">{% csrf_token %}
+  <form action="{% url 'new_media_topic' community.slug %}" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="card-body">
       <div class="form-group">
         <div class="d-flex fs-08 mb-2">
@@ -38,9 +38,9 @@
       </div>
       <div class="form-group">
         <div class="d-flex fs-08 mb-2">
-          {{form.content.label_tag}}
+          {{form.image.label_tag}}
         </div>
-        {{form.content|safe}}
+        {{form.image|safe}}
       </div>
       {% if form.content.errors %}
       <div class="alert alert-danger" role="alert">

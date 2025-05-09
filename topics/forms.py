@@ -57,4 +57,11 @@ class TopicModelForm(forms.ModelForm):
     title = self.cleaned_data['title']
     if len(title) > 120:
       raise forms.ValidationError("Title is too long.")
-    return title  
+    return title
+
+
+class NewMediaTopicModelForm(forms.ModelForm):
+
+  class Meta:
+    model = Topic
+    fields = ('title', 'image', 'content',)

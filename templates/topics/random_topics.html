@@ -1,0 +1,15 @@
+{% extends '../base.html' %}
+{% load static humanize widget_tweaks %}
+{% block title %}Random Topics{% endblock %}
+{% block content %}
+
+{% for topic in topics %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ topic.title }}</h5>
+    <p class="card-text">{{ topic.content|safe }}</p>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}
