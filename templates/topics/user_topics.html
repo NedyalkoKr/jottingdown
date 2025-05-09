@@ -78,6 +78,13 @@
                   <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
                 </ul>
               </div>
+              {% if community in user.following_communities.all %} 
+              <div class="col-auto">
+                <a href="{% url 'new_topic' community.slug %}" class="btn btn-sm btn-primary" target="_blank">
+                  New Topic
+                </a>
+              </div>
+              {% endif %}
               <div class="col-auto">
                 {% if user.following_communities %}
                 <form method="post" 

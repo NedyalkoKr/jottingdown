@@ -15,28 +15,10 @@
             <li class="list-group-item p-0 px-2 border-0 fs-08">{{user.following_communities.count}} followers</li>
           </ul>
         </div>
-        {% if community in user.following_communities.all %}
-        <div class="col-auto px-0">
-          <a href="{% url 'new_topic' community.slug %}" class="btn btn-sm btn-primary">
-            New Topic
-          </a>
-        </div>
-        {% endif %}
-        <div class="col-auto px-2">
-          {% if community in user.following_communities.all %}
-          <form method="post" action="{% url 'unfollow_community' community.slug %}">{% csrf_token %}
-            <button type="submit" class="btn btn-sm text-bg-danger-subtle rounded-2">Unfollow</button>
-          </form>
-          {% else %}
-          <form method="post" action="{% url 'follow_community' community.slug %}">{% csrf_token %}
-            <button type="submit" class="btn btn-sm text-success-emphasis bg-success-subtle border border-success-subtle rounded-2">Follow</button>
-          </form>
-          {% endif %}
-        </div>
         <div class="col-auto px-0">
           <div class="dropdown">
-            <a href="#" class="dropdown-toggle btn btn-sm btn-primary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              <i class="bi bi-three-dots"></i>
+            <a href="#" class="dropdown-toggle btn btn-sm btn-white" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <i class="bi bi-three-dots la-lg"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-end mt-2" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 27px, 0px);">
               <a href="{% url 'latest_community_topics' community.slug %}" class="dropdown-item text-dark">
