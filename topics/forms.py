@@ -40,6 +40,9 @@ class TopicModelForm(forms.ModelForm):
     model = Topic
     fields = ('title', 'content',)
   
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+  
   def clean_content(self):
     content = self.cleaned_data['content']
     content = re.sub(r'\u003c(sup|sub|script|button|form|select|textarea|canvas|menu|nav|header|footer|section|aside|audio)[^\u003e]*\u003e.*?\u003c/\\1\u003e', '', content, flags=re.DOTALL)

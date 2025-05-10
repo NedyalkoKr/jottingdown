@@ -28,6 +28,7 @@ class Topic(models.Model):
     max_upload_file_size=5242880,
   )],)
   is_image = models.BooleanField(default=False)
+  # is_question = models.BooleanField(default=False)
   
   class Meta:
     db_table = "topics"

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SavedSearch, SearchHistory
+from .models import SavedSearch, SearchHistory, SearchCommunityHistory
 
 
 @admin.register(SavedSearch)
@@ -21,5 +21,17 @@ class SearchHistoryAdmin(admin.ModelAdmin):
     ('New search history'),
     {
       'fields': ('query', 'user',)
+    },
+  ),
+
+
+@admin.register(SearchCommunityHistory)
+class SearchCommunityHistoryAdmin(admin.ModelAdmin):
+  list_display = ["query", "count"]
+  readonly_fields = ("created", "slug",)
+  fieldsets = (
+    ('New search query'),
+    {
+      'fields': ('query', 'community',)
     },
   ),

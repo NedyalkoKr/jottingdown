@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django_extensions.db.fields import RandomCharField
 from autoslug import AutoSlugField
+from core.models import Community
 
 
 class SavedSearch(models.Model):
@@ -44,3 +45,36 @@ class SearchHistory(models.Model):
 
   def __str__(self):
     return f"{self.query}"
+
+
+class SearchCommunityHistory(models.Model):
+
+  search_community_history_id = RandomCharField(length=64)
+  slug = AutoSlugField(populate_from="search_community_history_id", always_update=True, editable=False, null=True)  
+  community = models.ForeignKey(to=Community, on_delete=models.CASCADE, related_name='search_history')
+  query = models.CharField(max_length=255)
+  created = models.DateTimeField(auto_now_add=True, db_index=True)
+  count = models.PositiveIntegerField(default=1)
+
+  class Meta:
+    verbose_name = 'Search Community History'
+    verbose_name_plural = 'Search Community Histories'
+    unique_together = ['community', 'query']
+    ordering = ['-created']
+
+  def __str__(self):
+    return f"Search: {self.query} in {self.community.name}"
+  
+  @classmethod
+  def save_search(cls, community, query, has_results):
+    if has_results:
+      search, created = cls.objects.get_or_create(
+        community=community,
+        query=query,
+        defaults={'count': 1}
+      )
+      if not created:
+        search.count += 1
+        search.save()
+      return search
+    return None

@@ -58,61 +58,61 @@
   </li>
 </ul>
 <div class="card shadow-none">
-{% for post in posts %}
-<div class="card-body border-bottom">
-  <div class="row align-items-center mb-4">
-    <div class="col-auto">
-      {% if post.user.avatar %}
-      <a href="javascript:void(0)" class="avatar avatar-xs">
-        <img src="{{post.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
-      </a>
-      {% else %}
-      <div class="avatar avatar-xs">
-        <span class="avatar-title rounded-circle">{{post.user.username|slice:":2"}}</span>
+  {% for post in posts %}
+  <div class="card-body border-bottom">
+    <div class="row align-items-center mb-4">
+      <div class="col-auto">
+        {% if post.user.avatar %}
+        <a href="javascript:void(0)" class="avatar avatar-xs">
+          <img src="{{post.user.avatar.url}}" alt="..." class="avatar-img rounded-circle">
+        </a>
+        {% else %}
+        <div class="avatar avatar-xs">
+          <span class="avatar-title rounded-circle">{{post.user.username|slice:":2"}}</span>
+        </div>
+        {% endif %}
       </div>
+      <div class="col ms-n2">
+        <h4 class="mb-1">
+          {{ post.user.username }}
+        </h4>
+        <p class="card-text small text-body-secondary">
+          <time datetime="{{post.created|date:'Y-m-d H:i'}}">{{ post.created|naturaltime }}</time>
+        </p>
+      </div>
+    </div>
+    <a href="{% url 'topic' post.community.slug post.pk %}" class="text-dark">
+    <div class="fs-11 overflow-auto mb-4 px-3">
+      {% if post.is_image %}
+      <img src="{{post.image.url}}" alt="..." class="img-fluid">
+      {% else %}
+      {{ post.content|safe }}
       {% endif %}
     </div>
-    <div class="col ms-n2">
-      <h4 class="mb-1">
-        {{ post.user.username }}
-      </h4>
-      <p class="card-text small text-body-secondary">
-        <time datetime="{{post.created|date:'Y-m-d H:i'}}">{{ post.created|naturaltime }}</time>
-      </p>
-    </div>
-  </div>
-  <a href="{% url 'topic' post.community.slug post.pk %}" class="text-dark">
-  <div class="fs-11 overflow-auto mb-4 px-3">
-    {% if post.is_image %}
-    <img src="{{post.image.url}}" alt="..." class="img-fluid">
-    {% else %}
-    {{ post.content|safe }}
-    {% endif %}
-  </div>
-  </a>
-  <div class="mb-3">
-    <div class="row">
-      <div class="col">
+    </a>
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
 
-        <!-- Reaction -->
-        <a href="#!" class="btn btn-sm btn-white">
-          😬 1
-        </a>
-        <a href="#!" class="btn btn-sm btn-white">
-          👍 2
-        </a>
-        <a href="#!" class="btn btn-sm btn-white">
-          Add Reaction
-        </a>
-      </div>
-      <div class="col-auto">
-        <a href="#!" class="btn btn-sm btn-white">
-          Share
-        </a>
+          <!-- Reaction -->
+          <a href="#!" class="btn btn-sm btn-white">
+            😬 1
+          </a>
+          <a href="#!" class="btn btn-sm btn-white">
+            👍 2
+          </a>
+          <a href="#!" class="btn btn-sm btn-white">
+            Add Reaction
+          </a>
+        </div>
+        <div class="col-auto">
+          <a href="#!" class="btn btn-sm btn-white">
+            Share
+          </a>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{% endfor %}
+  {% endfor %}
 </div>
 {% endblock content %}

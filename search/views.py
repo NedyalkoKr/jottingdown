@@ -11,7 +11,7 @@ from django.db.models import Func, F, Q, Value, CharField, FloatField, Count, Te
 from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank, SearchHeadline, TrigramSimilarity, TrigramWordSimilarity
 from core.models import Community
 from topics.models import Topic
-from search.models import SearchHistory, SavedSearch
+from search.models import SearchHistory, SavedSearch, SearchCommunityHistory
 from .forms import NewSavedSearchFromKeywordModelForm, NewSavedSearchModelForm
 
 
@@ -68,6 +68,7 @@ class SearchCommunityTopicsView(LoginRequiredMixin, ListView):
     query = self.request.GET.get("q", "").strip()
     if not query:
       return Topic.objects.none()
+    community = Community.objects.get(slug=self.kwargs['slug'])
     cleaned_query = remove_stop_words(query)
     search_vector_fields = SearchVector("content", "title", config='english')
     search_query = SearchQuery(cleaned_query, search_type="websearch",)
@@ -87,7 +88,7 @@ class SearchCommunityTopicsView(LoginRequiredMixin, ListView):
     )
     topics = Topic.objects.annotate(
       search=search_vector_fields,
-      rank=SearchRank(search_vector_fields, search_query, cover_density=True), search_content_highlight=search_content_headline, search_title_highlight=search_title_headline).filter(search_vector=search_query).filter(community=Community.objects.get(slug=self.kwargs['slug'])).order_by("-rank")
+      rank=SearchRank(search_vector_fields, search_query, cover_density=True), search_content_highlight=search_content_headline, search_title_highlight=search_title_headline).filter(search_vector=search_query).filter(community=community).order_by("-rank")
     
     if not topics.exists():
       query_length = len(query.replace(" ", ""))
@@ -101,14 +102,21 @@ class SearchCommunityTopicsView(LoginRequiredMixin, ListView):
         trigram_threshold = 0.4
       
       topics = Topic.objects.annotate(similarity=TrigramSimilarity('content', query) + TrigramSimilarity('title', query)
-      ).filter(community=Community.objects.get(slug=self.kwargs['slug'])).filter(
+      ).filter(community=community).filter(
         Q(similarity__gt=trigram_threshold) & Q(user=self.request.user)
       ).order_by("-similarity")
 
       for topic in topics:
         topic.search_content_highlight = highlight_text(topic.content, query)
         topic.search_title_highlight = highlight_text(topic.title, query)
-      return topics
+    
+    if topics.exists():
+      SearchCommunityHistory.save_search(
+        community=community,
+        query=query,
+        has_results=True
+      )
+
     return topics
 
   def get_context_data(self, **kwargs):
