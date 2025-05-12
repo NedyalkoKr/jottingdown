@@ -10,11 +10,11 @@
             {{ category.name|capfirst }}&nbsp;&nbsp;&nbsp;<span class="fs-08 text-dark" data-bs-toggle="collapse" href="#description" role="button" aria-expanded="false" aria-controls="description"><i class="bi bi-info-circle"></i></span>
           </h1>
         </div>
-        <div class="col-auto">
+        <!-- <div class="col-auto">
           <a href="#!" class="btn btn-sm btn-primary lift">
-           Follow
+           
           </a>
-        </div>
+        </div> -->
       </div>
       <div class="row align-items-end mt-3 collapse" id="description">
         <div class="col">
@@ -33,7 +33,6 @@
   </div>
 </form>
 <div class="card shadow-none">
-  {% for community in communities %}
   {% for topic in topics %}
   <div class="card-body border-bottom">
     <div class="mb-3">
@@ -101,7 +100,6 @@
       </div>
     </div>
   </div>
-  {% endfor %}
   {% endfor %}
 </div>
 {% endblock content %}

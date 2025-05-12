@@ -14,6 +14,7 @@
 {% url 'topics_foryou_based_on_communities_you_follow' as topics_foryou_based_on_communities_you_follow_url %}
 {% url 'follow_people' as follow_people_url %}
 {% url 'posts_from_community_you_follow' community.slug as posts_from_community_you_follow_url %}
+{% url 'random_topics' as random_topics_url %}
 
 <nav class="navbar navbar-vertical fixed-start navbar-expand-md" id="sidebar">
   <div class="container-fluid">
@@ -71,7 +72,7 @@
           </a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link text-dark fs-12" href="{% url 'random_topics' %}">
+          <a class="nav-link text-dark fs-12 {% if request.path == random_topics_url %}active fw-800{% endif %}" href="{% url 'random_topics' %}">
             Stumble
           </a>
         </li>

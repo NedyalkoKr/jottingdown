@@ -114,7 +114,8 @@ class RandomTopicListView(LoginRequiredMixin, ListView):
   template_name = "topics/random_topics.html"
 
   def get_queryset(self):
-    topics = Topic.objects.order_by(Func(function='RANDOM'))
+    communities = Community.objects.filter(followed_communities=self.request.user)
+    topics = Topic.objects.order_by(Func(function='RANDOM')).prefetch_related('community').prefetch_related('user').exclude(user=self.request.user).prefetch_related('topic_views').prefetch_related('comments').filter(community__in=communities)
     return topics
 
 
